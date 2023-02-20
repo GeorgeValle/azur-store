@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Cross",
+    "price": "3000.00",
+    "stock": 12,
+    "description": "James Patterson, 2007, novela negra",
+    "code": 35769,
+    "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/c_thumb,w_200,g_face/v1664758517/tienda_ebooks/cross_tg1lll.jpg"
+  }
+
+  {
+    "name": "Cuatro",
+    "price": "2860.00",
+    "stock": 19,
+    "description": "Veronica Roth, 2014",
+    "code": 66769,
+    "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/v1664758390/tienda_ebooks/cuatro_ufpmp6.jpg"
+  }
+
+  {
+    "name": "Esperanza",
+    "price": "3133.00",
+    "stock": 15,
+    "description": "Danielle Steel, 2005, novela rosa",
+    "code": 12547,
+    "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/c_thumb,w_200,g_face/v1664759088/tienda_ebooks/esperanza_fjiczs.jpg"
+  }
+
+  {
+    "name": "Danza de Dragones",
+    "price": "13050.00",
+    "stock": 16,
+    "description": "Autor: George R. R. Martin, 2012 ",
+    "code": 35769,
+    "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/v1664758350/tienda_ebooks/danza_de_dragones_xk8awa.jpg"
+  }
+
+  {
+    "name": "Cien Anos de Soledad",
+    "price": "1999.00",
+    "stock": 16,
+    "description": "Gabriel Garcia Marquez, 1967 ",
+    "code": 66769,
+    "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/c_thumb,w_200,g_face/v1664754276/tienda_ebooks/cien_anos_de_soledad_t0zin0.jpg"
+  }
+
+  {
+    "name": "Revival",
+    "price": "3649.00",
+    "stock": 32,
+    "description": "Autor: Stephen King, 2014",
+    "code": 12547,
+    "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/c_thumb,w_200,g_face/v1664758378/tienda_ebooks/revival_jcvlna.jpg"
+  }
+
+]
