@@ -103,6 +103,7 @@ app.get('/home',(req, res)=>{
 
     }
     else{ res.redirect('/')}
+})
 
     //routes to books and carts
 app.use('/productos',productRouter);
