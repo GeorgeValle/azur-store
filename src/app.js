@@ -18,6 +18,12 @@ const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 //import handlebars
 import { engine } from 'express-handlebars';
 
+//import routes
+import {productRouter} from './routes/ProductsRouter.js';
+import {cartRouter} from './routes/CartsRouter.js';
+import {sessionRouter} from './routes/SessionRouter.js';
+
+
 //configuration of port whit fork o cluster mode
 const PORT = parseInt(process.argv[2]) || 8080
 const modoCluster = process.argv[3] == 'CLUSTER'
