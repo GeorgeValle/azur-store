@@ -1,0 +1,10 @@
+<div class="container-fluid">
+<h2>Hasta la proxima</h2>
+<h3>{{user}}</h3>
+</div>
+
+<script>
+    setTimeout(() => fetch('/session/logout',{
+            method: 'DELETE'
+        }).then(location.href = '/'), 2000)
+</script>
