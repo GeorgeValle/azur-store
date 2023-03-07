@@ -1,11 +1,15 @@
 {
     "cSpell.words": [
+        "Acción",
         "appenders",
         "azur",
+        "Cantidad",
         "caracteres",
         "carrito",
         "Cartsrouter",
+        "comience",
         "Comprar",
+        "compras",
         "conectar",
         "consola",
         "consultar",
@@ -22,6 +26,7 @@
         "Firestore",
         "fono",
         "formato",
+        "Foto",
         "generado",
         "guarda",
         "identificar",
@@ -37,6 +42,7 @@
         "Número",
         "números",
         "obligatorio",
+        "Perfil",
         "pintar",
         "positivos",
         "primera",
@@ -46,12 +52,15 @@
         "pueda",
         "registrado",
         "resto",
+        "Selecciona",
         "Signup",
         "tener",
         "tiene",
         "Unicamente",
         "usaurio",
-        "usuario"
+        "usuario",
+        "vaciar",
+        "vacío"
     ],
     "cSpell.enableFiletypes": [
         "!markdown"
