@@ -13,6 +13,10 @@ const productSchema = new Schema({
     description:String,
     code:Number,
     thumbnail:String,
+    inside:{
+        Boolean,
+        default: false
+    }
 
 })
 
