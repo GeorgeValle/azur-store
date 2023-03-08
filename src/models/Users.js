@@ -43,7 +43,12 @@ const userSchema = new Schema({
 
     avatar:{
         type: String
+    },
+    admin:{
+        type: Boolean,
+        default: false
     }
+    
 
 })
 
