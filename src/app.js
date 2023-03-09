@@ -68,7 +68,7 @@ app.use(session({
     store: MongoStore.create({ 
         mongoUrl: process.env.DB_ATLAS,
         mongoOptions: advancedOptions,
-        dbName: 'passport-auth',
+        dbName: 'azur',
         collectionName: 'session',
         ttl: 1200
     }),
