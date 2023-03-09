@@ -1,0 +1,27 @@
+[2023-03-09T03:37:42.804] [ERROR] DEV - intento fallido de registro
+[2023-03-09T03:41:49.505] [INFO] DEV - El usuario jorgeguillermovalle@gmail.com accedió al dashboard
+[2023-03-09T03:42:15.874] [INFO] DEV - El usuario jorgeguillermovalle@gmail.com  ha salido en ruta get logout
+[2023-03-09T03:46:07.762] [INFO] DEV - Se ha registrado el usuario jorgeguillermovalle@gmail.com
+[2023-03-09T03:46:07.931] [INFO] DEV - se creó el usuario jorgeguillermovalle@gmail.com  ruta session/register
+[2023-03-09T04:06:00.213] [INFO] DEV - Se ha registrado el usuario georgevalle@outlook.com.ar
+[2023-03-09T04:06:00.383] [INFO] DEV - se creó el usuario georgevalle@outlook.com.ar  ruta session/register
+[2023-03-09T04:06:38.112] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T04:06:50.334] [INFO] DEV - El usuario georgevalle@outlook.com.ar  ha salido en ruta get logout
+[2023-03-09T04:08:41.475] [INFO] DEV - Se ha registrado el usuario jorgevalle@outlook.com.ar
+[2023-03-09T04:08:41.631] [INFO] DEV - se creó el usuario jorgevalle@outlook.com.ar  ruta session/register
+[2023-03-09T04:09:15.133] [INFO] DEV - El usuario jorgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T04:09:45.809] [INFO] DEV - El usuario jorgevalle@outlook.com.ar  ha salido en ruta get logout
+[2023-03-09T04:13:28.632] [INFO] DEV - El usuario jorgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T04:14:37.591] [INFO] DEV - El usuario jorgevalle@outlook.com.ar  ha salido en ruta get logout
+[2023-03-09T04:37:52.548] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T04:40:03.984] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T04:42:00.795] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T04:44:11.705] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T04:53:28.837] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T04:53:54.842] [INFO] DEV - El usuario georgevalle@outlook.com.ar  ha salido en ruta get logout
+[2023-03-09T04:58:16.743] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T05:01:06.732] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T05:01:22.593] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T05:01:32.725] [INFO] DEV - El usuario georgevalle@outlook.com.ar  ha salido en ruta get logout
+[2023-03-09T05:03:59.149] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard
+[2023-03-09T05:04:07.879] [INFO] DEV - El usuario georgevalle@outlook.com.ar accedió al dashboard

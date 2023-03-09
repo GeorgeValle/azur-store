@@ -68,7 +68,7 @@ app.use(session({
     store: MongoStore.create({ 
         mongoUrl: process.env.DB_ATLAS,
         mongoOptions: advancedOptions,
-        dbName: 'azur',
+        dbName: 'passport-auth',
         collectionName: 'session',
         ttl: 1200
     }),
@@ -101,6 +101,10 @@ app.set('view engine', 'handlebars')
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.get('/', 
+    (req, res) => res.redirect('/session')   
+)
 
 app.get('/home',(req, res)=>{
     if(req.isAuthenticated()){

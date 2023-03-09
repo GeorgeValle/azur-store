@@ -1,6 +1,6 @@
 
 <div class="container-fluid flex mx-2">
-    <h2>Welcome </h2> 
+    <h2>Bienvenido a la zona de carga</h2> 
     <h2 id="userTitle">{{user}}</h2> 
     <a href="/session/logout" style="text-decoration: none; color: inherit;">
                 <button type="button" class="btn btn-outline-success">Logout</button>
@@ -8,21 +8,18 @@
 </div> 
 <h2>Create a product</h2>
 <form id="productsForm">
-    <label>Title:</label>
-    <input name="title">
-    <label>Price:</label>
+    <label>Nombre:</label>
+    <input name="name">
+    <label>Precio:</label>
     <input name="price">
-    <label>Thumbnail:</label>
+    <label>Stock:</label>
+    <input name="stock">
+    <label>Descripción:</label>
+    <input name="description">
+    <label>Código:</label>
+    <input name="code">
+    <label>Imagen:</label>
     <input name="thumbnail">
     <input type="submit">
 </form>
 <hr />
-<div id="history">without products to show</div>
-<hr />
-<h2>Messages history</h2>
-<form id="chatForm">
-    <input name="email">
-    <div id="chatHistory">without messages to show</div>
-    <input name="message">
-    <input type="submit">
-</form>
