@@ -11,7 +11,7 @@ route.get('/', (req, res) => {
         res.render('home')
     }
     else{
-        res.redirect('/create')
+        res.redirect('/session/create')
     }
 })
 
@@ -20,7 +20,7 @@ route.get('/register', (req, res) => {
         res.render('signup')
     }
     else {
-        res.redirect('/create')
+        res.redirect('/session/create')
     }
 })
 
@@ -38,13 +38,21 @@ route.get('/login', (req, res) => {
         res.render('login')
     }
     else {
-        res.redirect('create/')
+        res.redirect('/session/create')
     }
 })
 
+route.get('/inputProduct', (req, res) => {
+    if (req.isAuthenticated()&&req.user.admin===true) {
+        res.render('input-product',{user: req.user.name})
+    }
+    else {
+        res.redirect('/')
+    }
+})
 
 route.post('/login', passport.authenticate('login', { failureRedirect: 'failureLogin/'}), (req, res) => {
-    res.redirect('create/')
+    res.redirect('/session/create')
 })
 
 route.get('/logout', (req, res) => {
