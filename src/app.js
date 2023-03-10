@@ -116,8 +116,8 @@ app.get('/home',(req, res)=>{
 })
 
     //routes to books and carts
-app.use('/productos',productRouter);
-app.use('/carrito',cartRouter);
+app.use('/products',productRouter);
+app.use('/carts',cartRouter);
 app.use('/session',sessionRouter);
 
 //for message in inexistent routes

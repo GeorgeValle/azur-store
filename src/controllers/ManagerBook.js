@@ -1,5 +1,6 @@
 import '../loaders/connection.js';
 import ProductModel from '../models/ProductModel.js'
+import {logInfo} from '../utils/Logger.js'
 
 //create the new class Book
 
@@ -14,8 +15,13 @@ class Book{
     try{    
         //validations
        //this.validationsProduct(req.body);
-        const createdProduct = await ProductModel.create(req.body)
-        return res.status(200).json(createdProduct) 
+        
+        
+            await ProductModel.create(req.body)
+            logInfo.info(`se creó el producto ${req.body.name}  ruta /products`)
+            res.render('input-product',{user: req.user.name})
+            
+            return res.status(200)
         }catch(err){
             console.log(err);
             return res.status(400).json({message: "product not was save"})
