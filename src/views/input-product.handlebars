@@ -1,10 +1,10 @@
-<div class="container-fluid flex mx-2">
+<div class="container-fluid bg-light flex ">
     <h2>Bienvenido a la zona de carga</h2>
     <h2 id="userTitle">{{user}}</h2>
     {{!-- <a href="/session/logout" style="text-decoration: none; color: inherit;">
         <button type="button" class="btn btn-outline-success">Salir</button>
     </a> --}}
-    
+</div>    
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Navbar</a>
@@ -14,16 +14,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
+                <a class="nav-link" href="/session/purchase">Comprar</a>
+                </li>
+                <li class="nav-item">
                 <a class="nav-link" href="/session/logout">Salir</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-</div>
-<div class="container row mt-3">
+
+<div class="container bg-light row mr-3 mt-3">
     <div class="jumbotron col-sm-4 pull-center">
-        <h2>Cargar un nuevo producto</h2>
+        <h4>Cargar nuevo producto</h4>
         <form autocomplete="off" action="/products" method="post">
             <div class="form-group">
             </div>
@@ -47,11 +50,11 @@
                 <label>Código:</label>
                 <input class="form-control" required type="number" name="code">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label>Imagen:</label>
                 <input class="form-control" type="text" name="thumbnail">
             </div>
-            <input class="btn btn-primary" type="submit" class="mt-2 btn btn-primary" value="Cargar">
+            <input class="btn btn-primary" type="submit" class=" btn btn-primary " value="Cargar">
         </form>
     </div>   
 </div> 
