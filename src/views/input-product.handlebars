@@ -23,35 +23,37 @@
 </div>
 <div class="container row mt-3">
     <div class="jumbotron col-sm-4 pull-center">
-        <h2>Create a product</h2>
+        <h2>Cargar un nuevo producto</h2>
         <form autocomplete="off" action="/products" method="post">
             <div class="form-group">
+            </div>
+            <div class="form-group">
                 <label>Nombre:</label>
-                <input name="name">
+                <input class="form-control" required type="text" name="name">
             </div>
             <div class="form-group">
                 <label>Precio:</label>
-                <input name="price">
+                <input class="form-control" required type="number" name="price">
             </div>
             <div class="form-group">
                 <label>Stock:</label>
-                <input name="stock">
+                <input class="form-control" required type="number" name="stock">
             </div>
             <div class="form-group">
                 <label>Descripción:</label>
-                <input name="description">
+                <input class="form-control" required type="text" name="description">
             </div>
             <div class="form-group">
                 <label>Código:</label>
-                <input name="code">
+                <input class="form-control" required type="number" name="code">
             </div>
             <div class="form-group">
                 <label>Imagen:</label>
-                <input name="thumbnail">
+                <input class="form-control" type="text" name="thumbnail">
             </div>
-            <input type="submit">
+            <input class="btn btn-primary" type="submit" class="mt-2 btn btn-primary" value="Cargar">
         </form>
-        <hr />
     </div>   
-</div>        
+</div> 
+<hr />       
     
