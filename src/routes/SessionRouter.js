@@ -11,7 +11,7 @@ route.get('/', (req, res) => {
         res.render('home')
     }
     else{
-        res.redirect('/session/create')
+        res.redirect('/session/purchase')
     }
 })
 
@@ -20,7 +20,7 @@ route.get('/register', (req, res) => {
         res.render('signup')
     }
     else {
-        res.redirect('/session/create')
+        res.redirect('/session/purchase')
     }
 })
 
@@ -38,7 +38,7 @@ route.get('/login', (req, res) => {
         res.render('login')
     }
     else {
-        res.redirect('/session/create')
+        res.redirect('/session/purchase')
     }
 })
 
@@ -52,7 +52,7 @@ route.get('/inputProduct', (req, res) => {
 })
 
 route.post('/login', passport.authenticate('login', { failureRedirect: 'failureLogin/'}), (req, res) => {
-    res.redirect('/session/create')
+    res.redirect('/session/purchase')
 })
 
 route.get('/logout', (req, res) => {
@@ -95,11 +95,13 @@ route.post('/failureRegister', (req, res) => {
     res.render('fail-register')
 })
 
-route.get('/create',(req, res)=>{
+route.get('/purchase',(req, res)=>{
     if(req.isAuthenticated()){
-        logger.info(`El usuario ${req.user.username} accedió al dashboard`)
-        res.render('dashboard',{
-            user: req.user.name, avatar: req.user.avatar
+        logger.info(`El usuario ${req.user.username} accedió al sector de compra`)
+        let access = false
+        if(req.user.admin==true){ access = true }
+        res.render('purchase',{
+            user: req.user.name, avatar: req.user.avatar, admin:access
             })
 
     }

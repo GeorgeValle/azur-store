@@ -109,7 +109,7 @@ app.get('/',
 app.get('/home',(req, res)=>{
     if(req.isAuthenticated()){
 
-        res.redirect('/session/create')
+        res.redirect('/session/purchase')
 
     }
     else{ res.redirect('/')}
