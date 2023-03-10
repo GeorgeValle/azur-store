@@ -3,7 +3,6 @@ import ProductModel from '../models/ProductModel.js'
 import {logInfo} from '../utils/Logger.js'
 
 //create the new class Book
-
 class Book{
     //IIEF
     
@@ -13,18 +12,15 @@ class Book{
 
     async saveData(req, res) {
     try{    
-        //validations
-       //this.validationsProduct(req.body);
-        
-        
             await ProductModel.create(req.body)
             logInfo.info(`se creó el producto ${req.body.name}  ruta /products`)
             res.render('input-product',{user: req.user.name})
             
             return res.status(200)
         }catch(err){
-            console.log(err);
-            return res.status(400).json({message: "product not was save"})
+            
+            res.render('errors',{message: err, route: "session/inputProduct", zone: "Carga de productos"})
+            return res.status(400)
         }
     }
 
