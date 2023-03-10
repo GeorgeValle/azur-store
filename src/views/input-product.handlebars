@@ -1,25 +1,57 @@
-
 <div class="container-fluid flex mx-2">
-    <h2>Bienvenido a la zona de carga</h2> 
-    <h2 id="userTitle">{{user}}</h2> 
-    <a href="/session/logout" style="text-decoration: none; color: inherit;">
-                <button type="button" class="btn btn-outline-success">Logout</button>
-    </a>
-</div> 
-<h2>Create a product</h2>
-<form id="productsForm">
-    <label>Nombre:</label>
-    <input name="name">
-    <label>Precio:</label>
-    <input name="price">
-    <label>Stock:</label>
-    <input name="stock">
-    <label>Descripción:</label>
-    <input name="description">
-    <label>Código:</label>
-    <input name="code">
-    <label>Imagen:</label>
-    <input name="thumbnail">
-    <input type="submit">
-</form>
-<hr />
+    <h2>Bienvenido a la zona de carga</h2>
+    <h2 id="userTitle">{{user}}</h2>
+    {{!-- <a href="/session/logout" style="text-decoration: none; color: inherit;">
+        <button type="button" class="btn btn-outline-success">Salir</button>
+    </a> --}}
+    
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link" href="/session/logout">Salir</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</div>
+<div class="container row mt-3">
+    <div class="jumbotron col-sm-4 pull-center">
+        <h2>Create a product</h2>
+        <form autocomplete="off" action="/products" method="post">
+            <div class="form-group">
+                <label>Nombre:</label>
+                <input name="name">
+            </div>
+            <div class="form-group">
+                <label>Precio:</label>
+                <input name="price">
+            </div>
+            <div class="form-group">
+                <label>Stock:</label>
+                <input name="stock">
+            </div>
+            <div class="form-group">
+                <label>Descripción:</label>
+                <input name="description">
+            </div>
+            <div class="form-group">
+                <label>Código:</label>
+                <input name="code">
+            </div>
+            <div class="form-group">
+                <label>Imagen:</label>
+                <input name="thumbnail">
+            </div>
+            <input type="submit">
+        </form>
+        <hr />
+    </div>   
+</div>        
+    

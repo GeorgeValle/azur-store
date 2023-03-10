@@ -14,7 +14,7 @@ const productSchema = new Schema({
     code:Number,
     thumbnail:String,
     inside:{
-        Boolean,
+        type:Boolean,
         default: false
     }
 

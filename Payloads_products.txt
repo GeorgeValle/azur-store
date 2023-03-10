@@ -12,7 +12,7 @@
     "name": "Cuatro",
     "price": "2860.00",
     "stock": 19,
-    "description": "Veronica Roth, 2014",
+    "description": "Veronica Roth, 2014, ciencia ficcion",
     "code": 66769,
     "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/v1664758390/tienda_ebooks/cuatro_ufpmp6.jpg"
   }
@@ -30,7 +30,7 @@
     "name": "Danza de Dragones",
     "price": "13050.00",
     "stock": 16,
-    "description": "Autor: George R. R. Martin, 2012 ",
+    "description": "Autor: George R. R. Martin, 2012, fantasia",
     "code": 35769,
     "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/v1664758350/tienda_ebooks/danza_de_dragones_xk8awa.jpg"
   }
@@ -39,7 +39,7 @@
     "name": "Cien Anos de Soledad",
     "price": "1999.00",
     "stock": 16,
-    "description": "Gabriel Garcia Marquez, 1967 ",
+    "description": "Gabriel Garcia Marquez, 1967, ficcion ",
     "code": 66769,
     "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/c_thumb,w_200,g_face/v1664754276/tienda_ebooks/cien_anos_de_soledad_t0zin0.jpg"
   }
@@ -48,7 +48,7 @@
     "name": "Revival",
     "price": "3649.00",
     "stock": 32,
-    "description": "Autor: Stephen King, 2014",
+    "description": "Autor: Stephen King, 2014, terror",
     "code": 12547,
     "thumbnail": "https://res.cloudinary.com/georgevalle/image/upload/c_thumb,w_200,g_face/v1664758378/tienda_ebooks/revival_jcvlna.jpg"
   }
