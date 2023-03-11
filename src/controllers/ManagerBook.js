@@ -2,6 +2,7 @@ import '../loaders/connection.js';
 import ProductModel from '../models/ProductModel.js'
 import {logInfo} from '../utils/Logger.js'
 
+
 //create the new class Book
 class Book{
     //IIEF
@@ -29,6 +30,16 @@ class Book{
         const products = await ProductModel.find()
         return res.status(200).json({data:products})
     }
+
+    async getAllP(req , res) {
+
+        try{
+        const products = await ProductModel.find()
+        return products
+        }
+        catch(err){res.send({message:err})}
+    }
+
 
     async getById(req, res) {
         

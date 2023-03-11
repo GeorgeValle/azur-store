@@ -7,10 +7,6 @@ const routes= Router();
 //below, you can configure the type of storage
 
 import cart from '../controllers/ManagerCart.js';
-// import cart from'../controllers/ManagerBookFire.js';
-//dynamic import:
-//const book = await import('../controllers/ManagerBook.js');
-//book.default();
 
 
 //create a new instance of the managerCart, Important!: only put id of product book

@@ -1,7 +1,10 @@
-import express from 'express';
-const route = express.Router();
+//import express from 'express';
+import Router from 'express-promise-router';
+const route= new Router();
 import passport from "passport";
 import {logger} from '../utils/Logger.js'
+import book from'../controllers/ManagerBook.js';
+//import cart from '../controllers/ManagerCart.js';
 
 
 
@@ -95,19 +98,22 @@ route.post('/failureRegister', (req, res) => {
     res.render('fail-register')
 })
 
-route.get('/purchase',(req, res)=>{
+route.get('/purchase', async (req, res)=>{
     if(req.isAuthenticated()){
         logger.info(`El usuario ${req.user.username} accedió al sector de compra`)
+        let products = await book.getAllP()
+        
         let access = false
         if(req.user.admin==true){ access = true }
+
         res.render('purchase',{
-            user: req.user.name, avatar: req.user.avatar, admin:access
+            user: req.user.name, avatar: req.user.avatar, admin:access, products: products 
             })
 
     }
     else{ res.redirect('/')}
 })
-
+// route.get('/purchase', book.getAllProducts)
 //route.get('/user', userModel.getById)
 
 
