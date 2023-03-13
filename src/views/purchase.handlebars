@@ -36,6 +36,10 @@
         <div class="card-body">
           <h5 class="card-title">{{user}}</h5>
           <p class="card-text">Selecciona los productos a comprar</p>
+          {{# if message}}
+          <p class="card-text text-success mx-4">{{message}}</p>
+          {{/if}}
+          <p class="card-text"></p>
         </div>
       </div>
     </div>
@@ -64,8 +68,7 @@
           <p class="card-text text-muted">{{this.description}}</p>
         </div>
         <div class="card-footer">
-          <a href="" class="btn btn-dark btn-sm" role="button">-</a>
-          <a href="" class="btn btn-dark btn-sm" role="button">+</a>
+          <a href="/carts/{{this.userId}}/products/{{this._id}}" class="btn btn-dark btn-sm" role="button">Agregar al carrito</a>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 import Router from 'express-promise-router';
 const route= new Router();
 import passport from "passport";
-import {logger} from '../utils/Logger.js'
+import {logger, logInfo} from '../utils/Logger.js'
 import book from'../controllers/ManagerBook.js';
 //import cart from '../controllers/ManagerCart.js';
 
@@ -45,6 +45,11 @@ route.get('/login', (req, res) => {
     }
 })
 
+route.post('/login', passport.authenticate('login', { failureRedirect: 'failureLogin/'}), (req, res) => {
+    logInfo.info('login successful')
+    res.redirect('/session/purchase')
+})
+
 route.get('/inputProduct', (req, res) => {
     if (req.isAuthenticated()&&req.user.admin===true) {
         res.render('input-product',{user: req.user.name})
@@ -52,10 +57,6 @@ route.get('/inputProduct', (req, res) => {
     else {
         res.redirect('/')
     }
-})
-
-route.post('/login', passport.authenticate('login', { failureRedirect: 'failureLogin/'}), (req, res) => {
-    res.redirect('/session/purchase')
 })
 
 route.get('/logout', (req, res) => {
@@ -102,9 +103,16 @@ route.get('/purchase', async (req, res)=>{
     if(req.isAuthenticated()){
         logger.info(`El usuario ${req.user.username} accedió al sector de compra`)
         let products = await book.getAllP()
-        
+        //flag the admin access
         let access = false
         if(req.user.admin==true){ access = true }
+        
+        //cast object id in string
+        let myObjectId =req.user._id
+        //add value in each product
+        for (let i = 0; i < products.length; i++) {
+            products[i].userId = myObjectId.toString()
+        }
 
         res.render('purchase',{
             user: req.user.name, avatar: req.user.avatar, admin:access, products: products 

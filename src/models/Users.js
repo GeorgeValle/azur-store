@@ -42,12 +42,20 @@ const userSchema = new Schema({
     },
 
     avatar:{
-        type: String
+        type:String,
+        default:"https://res.cloudinary.com/georgevalle/image/upload/v1678559252/thumbnails/avatars/anon-avatar_ga66mh.jpg"
+
     },
     admin:{
         type: Boolean,
         default: false
-    }
+    },
+    cart:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "cart",
+        unique:true
+    },
+
     
 
 })

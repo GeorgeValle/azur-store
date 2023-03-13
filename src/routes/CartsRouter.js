@@ -12,8 +12,12 @@ import cart from '../controllers/ManagerCart.js';
 //create a new instance of the managerCart, Important!: only put id of product book
 routes.post('/', cart.saveData)
 
+routes.post('/:id_user',cart.createOneCart)
+
+
+
 //insert a new product in a cart
-routes.put('/:id/productos/:id_prod', cart.updateById)
+routes.get('/:id_user/products/:id_prod', cart.updateById)
 
 //get a Cart by identifier
 routes.get('/:id', cart.getById)

@@ -14,8 +14,8 @@ class Book{
     async saveData(req, res) {
     try{    
             await ProductModel.create(req.body)
-            logInfo.info(`se creó el producto ${req.body.name}  ruta /products`)
-            res.render('input-product',{user: req.user.name})
+            logInfo.info(`Product created: ${req.body.name}  route /products`)
+            res.render('input-product',{user: req.user.name, message: "producto creado"})
             
             return res.status(200)
         }catch(err){
