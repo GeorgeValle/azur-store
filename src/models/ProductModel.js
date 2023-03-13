@@ -6,7 +6,7 @@ const productSchema = new Schema({
         required:true
     },
     price:{
-        type: Number,
+        type:Number,
         default:0
     },
     stock:{
@@ -22,10 +22,19 @@ const productSchema = new Schema({
         type:String,
         required:true
     },
-    inside:{
-        type:Boolean,
-        default: false
+    category:{
+        type:String,
+        required:true
+    },
+    quantity:{
+        type:Number,
+        default:0
+    },
+    userId:{
+        type:String,
+        default:""
     }
+    
 
 })
 

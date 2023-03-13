@@ -1,5 +1,5 @@
 georgevalle@outlook.com.ar
-fluido4573
+sonido4573
 george
 pizza 233
 38
@@ -9,13 +9,14 @@ https://res.cloudinary.com/georgevalle/image/upload/v1673773852/thumbnails/avata
 
 
 jorgeguillermovalle@gmail.com
-resentido284
+primero284
 Yorch
 Blas pareda 345
 35
 543517895696
 https://res.cloudinary.com/georgevalle/image/upload/v1673925240/thumbnails/avatars/mi-perfil-178px_sqipzr.jpg
 
+#usuario admin:
 
 jorgevalle@outlook.com.ar
 reino624
@@ -24,3 +25,41 @@ Victor mercante 684
 36
 543518563658
 https://res.cloudinary.com/georgevalle/image/upload/c_scale,w_175/v1674022329/thumbnails/avatars/MAR_3325_yweict.jpg
+
+
+##Modo Body
+
+{
+"username":"georgevalle@outlook.com.ar",
+"password":"primero284",
+"name":"george",
+"adress":"pizza 233",
+"age": 38,
+"phone":543516694996,
+"thumbnail":"https://res.cloudinary.com/georgevalle/image/upload/v1673773852/thumbnails/avatars/avatar-george_k1ueo1.jpg
+"
+}
+
+{
+"username":"jorgeguillermovalle@gmail.com",
+"password":"sonido4573",
+"name":"Yorch",
+"adress":"Blas pareda 345",
+"age": 35,
+"phone":543517895696,
+"thumbnail":"https://res.cloudinary.com/georgevalle/image/upload/v1673925240/thumbnails/avatars/mi-perfil-178px_sqipzr.jpg"
+}
+
+#usuario admin:
+
+{
+"username":"jorgevalle@outlook.com.ar",
+"password":"reino624",
+"name":"Jorge",
+"adress":"Victor mercante 684",
+"age": 36,
+"phone":543518563658,
+"thumbnail":"https://res.cloudinary.com/georgevalle/image/upload/c_scale,w_175/v1674022329/thumbnails/avatars/MAR_3325_yweict.jpg"
+}
+
+

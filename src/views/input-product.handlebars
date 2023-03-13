@@ -23,7 +23,9 @@
         </div>
     </div>
 </nav>
-
+{{# if message}}
+<p class="card-text text-success mx-4">{{message}}</p>
+{{/if}}
 <div class="container bg-light row mr-3 mt-3">
     <div class="jumbotron col-sm-4 pull-center">
         <h4>Cargar nuevo producto</h4>
@@ -43,16 +45,20 @@
                 <input class="form-control" required type="number" name="stock">
             </div>
             <div class="form-group">
-                <label>Descripción:</label>
+                <label>Descripci&#243;n:</label>
                 <input class="form-control" required type="text" name="description">
             </div>
             <div class="form-group">
-                <label>Código:</label>
+                <label>C&#243;digo:</label>
                 <input class="form-control" required type="number" name="code">
             </div>
             <div class="form-group mb-3">
                 <label>Imagen:</label>
                 <input class="form-control" type="text" name="thumbnail">
+            </div>
+            <div class="form-group mb-3">
+                <label>Categor&#237;a:</label>
+                <input class="form-control" type="text" name="category">
             </div>
             <input class="btn btn-primary" type="submit" class=" btn btn-primary " value="Cargar">
         </form>
