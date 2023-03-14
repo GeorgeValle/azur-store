@@ -30,18 +30,18 @@ class Cart{
         }
     }
 
-    #getProduct = async id_prod => {
+    // #getProduct = async id_prod => {
         
-        try{
-        let productArray = await ProductModel.findOne({id:id_prod});
-        let product = productArray[0];
-        return product;
-        }catch(err){
-            errorLogger.error(`product not found ${err}`)
-            res.render('errors',{message:err,route: "session/purchase",zone:"compras"})
+    //     try{
+    //     let productArray = await ProductModel.findOne({id:id_prod});
+    //     let product = productArray[0];
+    //     return product;
+    //     }catch(err){
+    //         errorLogger.error(`product not found ${err}`)
+    //         res.render('errors',{message:err,route: "session/purchase",zone:"compras"})
             
-        }
-    }
+    //     }
+    // }
 
     #renderPurchase = async (res,user) =>{
     let products = await book.getAllP()
@@ -104,10 +104,35 @@ class Cart{
             if(!cart) return res.status(404).json({ message: 'Cart does not exits'})
             return res.status(200).json(cart)
         } catch(err) {
-            errorLogger.error(`error to create Cart, function createOneCart: ${err}`);
+            errorLogger.error(`error to obtain a Cart, getById: ${err}`);
             return res.status(404).json({ message: 'cart does not exits'});
         }
     }
+    //obtain one cart whit an id_user
+    getByIdUser= async (id_user, req, res) => {
+        //Validations
+        try {
+            
+            //const { id_user } = req.params
+            //Validations
+            //if (!id_user) return res.status(400).json( {message: "Id required"});
+
+            const carts = await CartModel.find()
+            const cart =  carts.filter(cart=>cart.idBD==id_user)
+            console.log(`get cart: ${cart}`)
+            // if(!cart[0]){
+            // logInfo.info('Cart does not exits')
+            // return cart[0]
+            // }else{
+                return cart
+            //}
+        } catch(err) {
+            errorLogger.error(`error to obtain a Cart, getByIdUser: ${err}`);
+            //return res.status(404).json({ message: 'cart does not exits'});
+        }
+    }
+
+
 
     getItemById = async (req,res) => {
 
@@ -167,6 +192,7 @@ class Cart{
                     cart.totalItems += 1//parseInt(prod.cantidad);
                     cart.totalPrice += prod.price
                     prod.quantity += 1
+
                     
                     cart.save()
                     logInfo.info(`added in cart again: ${prod.name}  ruta /carts/id_user/products/id_prod`)
@@ -181,6 +207,7 @@ class Cart{
             cart.totalPrice +=newProduct.price
             cart.totalItems +=1
             newProduct.quantity+=1
+            newProduct.userId=id_user
             //cart.products.push(newProduct)
             await cart.save()
             await CartModel.findOneAndUpdate( {idDB:id_user},
@@ -190,7 +217,8 @@ class Cart{
                 })
             logInfo.info(`added to cart: ${newProduct.name}  ruta /carts/id_user/products/id_prod`)
             }
-            return this.#renderPurchase(res,req.user)
+            //return this.#renderPurchase(res,req.user)
+            return res.status(200)
             //return res.redirect('/purchase',{message: `Se agregó el producto al carrito`})
         } catch(err) {
             errorLogger.error("error to add item, function updateById")
@@ -207,13 +235,14 @@ class Cart{
             if (!id) return res.status(400).json( {message: "Id required"});
             const { id_prod } = req.params;
             if (!id_prod) return res.status(400).json( {message: "Product Id required"});
-            // const deleted = await CartModel.updateOne({_id: id}, {$pull: {products: id_prod }})
-            // await CartModel.save;
-            let products = await CartModel.find({id:id}).populate('products')
-            let update= products.filter(product =>product.id === id_prod)
-            let cart = await CartModel.findOneAndUpdate({user:id}, { $set:{product: update}}, {new: true}, {
+            const deleted = await CartModel.updateOne({idBd: id}, {$pull: {products: id_prod }})
+            await deleted.save();
+            // let arrayProducts = await CartModel.find({idBD:id})
+            // let products= arrayProducts.products
+            // let update= products.filter(product =>product.idBD === id_prod)
+            //let cart = await CartModel.findOneAndUpdate({user:id}, { $set:{product: update}}, {new: true}, {
 
-            });
+            //});
 
 
 
@@ -259,8 +288,18 @@ class Cart{
     async getAll(req , res) {
 
         const carts = await CartModel.find()
+        
         return res.status(200).json({data:carts})
     }
+
+    async getAllCarts(req , res) {
+
+        const carts = await CartModel.find()
+        return carts
+        //return res.status(200).json({data:carts})
+    }
+
+    
 }
 
 export default new Cart();

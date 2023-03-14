@@ -4,7 +4,7 @@ const route= new Router();
 import passport from "passport";
 import {logger, logInfo} from '../utils/Logger.js'
 import book from'../controllers/ManagerBook.js';
-//import cart from '../controllers/ManagerCart.js';
+import cart from '../controllers/ManagerCart.js';
 
 
 
@@ -99,28 +99,28 @@ route.post('/failureRegister', (req, res) => {
     res.render('fail-register')
 })
 
-route.post('/purchase', async (req, res)=>{
-    if(req.isAuthenticated()){
-        logger.info(`El usuario ${req.user.username} accedió al sector de compra`)
-        let products = await book.getAllP()
-        //flag the admin access
-        let access = false
-        if(req.user.admin==true){ access = true }
+// route.post('/purchase', async (req, res)=>{
+//     if(req.isAuthenticated()){
+//         logger.info(`El usuario ${req.user.username} accedió al sector de compra`)
+//         let products = await book.getAllP()
+//         //flag the admin access
+//         let access = false
+//         if(req.user.admin==true){ access = true }
         
-        //cast object id in string
-        let myObjectId =req.user._id
-        //add value in each product
-        for (let i = 0; i < products.length; i++) {
-            products[i].userId = myObjectId.toString()
-        }
+//         //cast object id in string
+//         let myObjectId =req.user._id
+//         //add value in each product
+//         for (let i = 0; i < products.length; i++) {
+//             products[i].userId = myObjectId.toString()
+//         }
 
-        res.render('purchase',{
-            user: req.user.name, avatar: req.user.avatar, admin:access, products: products 
-            })
+//         res.render('purchase',{
+//             user: req.user.name, avatar: req.user.avatar, admin:access, products: products ,message: "post"
+//             })
 
-    }
-    else{ res.redirect('/')}
-})
+//     }
+//     else{ res.redirect('/')}
+// })
 
 route.get('/purchase', async (req, res)=>{
     if(req.isAuthenticated()){
@@ -146,6 +146,36 @@ route.get('/purchase', async (req, res)=>{
 })
 // route.get('/purchase', book.getAllProducts)
 //route.get('/user', userModel.getById)
+
+route.get('/cart', async (req, res)=>{
+    if(req.isAuthenticated()){
+        logger.info(`El usuario ${req.user.username} accedió al sector de Carrito`)
+        let access = false
+        if(req.user.admin==true){ access = true }
+        let myObjectId =req.user._id
+        
+        //let oneCart = cart.getByIdUser(myObjectId.toString(),req, res)
+        const carts = cart.getAllCarts()
+        console.log(`los cart: ${carts}`)
+
+        const oneCart ={}
+        for (let i = 0; i < carts.length; i++) {
+            if(carts[i].userId == myObjectId.toString()){
+                oneCart=carts[i]
+            }
+        }
+
+        //const oneCart = carts.filter(cart=>cart.idBD==id_user)
+        
+        
+        let items=oneCart.products
+        console.log(`items: ${items}`)
+        res.render('cart',{
+            user: req.user.name, avatar: req.user.avatar, admin:access, products: items, cart:oneCart 
+            })
+
+    }
+})
 
 
 const sessionRouter = route; 
