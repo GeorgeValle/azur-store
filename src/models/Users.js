@@ -50,11 +50,7 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
-    cart:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "cart",
-        unique:true
-    },
+    
 
     
 

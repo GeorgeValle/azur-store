@@ -99,6 +99,29 @@ route.post('/failureRegister', (req, res) => {
     res.render('fail-register')
 })
 
+route.post('/purchase', async (req, res)=>{
+    if(req.isAuthenticated()){
+        logger.info(`El usuario ${req.user.username} accedió al sector de compra`)
+        let products = await book.getAllP()
+        //flag the admin access
+        let access = false
+        if(req.user.admin==true){ access = true }
+        
+        //cast object id in string
+        let myObjectId =req.user._id
+        //add value in each product
+        for (let i = 0; i < products.length; i++) {
+            products[i].userId = myObjectId.toString()
+        }
+
+        res.render('purchase',{
+            user: req.user.name, avatar: req.user.avatar, admin:access, products: products 
+            })
+
+    }
+    else{ res.redirect('/')}
+})
+
 route.get('/purchase', async (req, res)=>{
     if(req.isAuthenticated()){
         logger.info(`El usuario ${req.user.username} accedió al sector de compra`)

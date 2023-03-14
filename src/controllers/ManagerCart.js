@@ -6,83 +6,106 @@ import {userModel} from '../models/Users.js';
 import ProductModel from '../models/ProductModel.js';
 class Cart{
 
-    //receive a id of product
-    saveData= async (req, res) => {
-        //validations
-        try{
-            let carts = await CartModel.find()
-            if(!carts){
-            const createdCart = await CartModel.create({});
-            if(!createdCart)return res.status(404).json({ message: 'Cart does not created'})
-        
-            return res.status(200).json({message: "Cart created", data: createdCart})
-            }
-        }catch(err){
-            console.log(err)
-            return{status:400, message: "error cart not created"}
-        }
-    }
-    
-    createOneCart= async (req, res)=>{
-        try{
-            const { id_user } = req.params
-            const user = await userModel.findById(id_user)
-            if(!user){
-                errorLogger.error("NO found user for function createOneCart")
-                return res.status(404)
-            }
-            const cart = await CartModel.find({user:user}).populate("products")
-            if(!cart){
-                const newCart = await CartModel.create({user:user})
-                await newCart.save()
-                return newCart
-            }
-        }catch(err){
-            errorLogger.error("error to create Cart, function createOneCart")
-            res.render('errors',{message:err,route: "session/purchase",zone:"/compras"})
-        }
-    }
 
     #createCart= async (id_user)=>{
         // const { id_user } = req.params
         try{
             const user = await userModel.findById(id_user)
             if(!user){errorLogger.error("NO found user for function createCart")}
-
-            const cart = await CartModel.find({user:user}).populate("products")
+            
+            let addressUser = user.address
+            let emailUser = user.username
+            const cart = await CartModel.find({idBD:id_user})
             if(!cart[0]){
                 
-                await CartModel.create({user:user})
+                await CartModel.create({idBD:id_user,address:addressUser,email:emailUser})
                 
-                logInfo.info("Cart created")
+                logInfo.info(`Cart of ${user.name} create`)
                 
             }
         }catch(err){
             errorLogger.error(`cart not created ${err}`)
+            res.render('errors',{message:err,route: "session/purchase",zone:"compras"})
+            
         }
     }
 
+    #getProduct = async id_prod => {
+        
+        try{
+        let productArray = await ProductModel.findOne({id:id_prod});
+        let product = productArray[0];
+        return product;
+        }catch(err){
+            errorLogger.error(`product not found ${err}`)
+            res.render('errors',{message:err,route: "session/purchase",zone:"compras"})
+            
+        }
+    }
+
+    #renderPurchase = async (res,user) =>{
+    let products = await book.getAllP()
+        //flag the admin access
+        let access = false
+        if(user.admin==true){ access = true }
+        
+        //cast object id in string
+        let myObjectId =user._id
+        //add value in each product
+        for (let i = 0; i < products.length; i++) {
+            products[i].userId = myObjectId.toString()
+        }
+
+        res.render('purchase',{
+            user: user.name, avatar: user.avatar, admin:access, products: products, message:"Item agregado" 
+            })
+
+        }
 
 
+    //receive a id of product
+    // saveData= async (req, res) => {
+    //     //validations
+    //     try{
+    //         let carts = await CartModel.find()
+    //         if(!carts){
+    //         const createdCart = await CartModel.create({});
+    //         if(!createdCart)return res.status(404).json({ message: 'Cart does not created'})
+        
+    //         return res.status(200).json({message: "Cart created", data: createdCart})
+    //         }
+    //     }catch(err){
+    //         console.log(err)
+    //         return{status:400, message: "error cart not created"}
+    //     }
+    // }
+    
+    //create one cart whit a Id_user from params
+    createOneCart= async (req, res)=>{
+        try{
+            const { id_user } = req.params
+            await this.#createCart(id_user)
+        }catch(err){
+            errorLogger.error("error to create Cart, function createOneCart")
+            res.render('errors',{message:err,route: "session/purchase",zone:"/compras"})
+        }
+    }
 
-
-
-
-    //obtain a product from cart by id_prod
+    //obtain a cart whit the id_user
     getById = async (req,res) => {
         //Validations
         try {
             
-            const { id } = req.params
+            const { id_user } = req.params
             //Validations
-            if (!id) return res.status(400).json( {message: "Id required"});
+            if (!id_user) return res.status(400).json( {message: "Id required"});
 
-            const cart = await CartModel.findById(id)
+            const cart = await CartModel.find({idBD:id_user})
             if(!cart) return res.status(404).json({ message: 'Cart does not exits'})
             return res.status(200).json(cart)
         } catch(err) {
-            console.log(err);
-            return res.status(404).json({ message: 'Product does not exits'});
+            errorLogger.error(`error to create Cart, function createOneCart: ${err}`);
+            return res.status(404).json({ message: 'cart does not exits'});
         }
     }
 
@@ -118,40 +141,61 @@ class Cart{
             if (!id_prod) return res.status(400).json( {message: " Product ID required"});
 
             //let newProduct= await book.getBook(id_prod);
-            let newProduct= await ProductModel.findById(id_prod);
-            if(!newProduct) return res.status(400).json( {message:"product not fund"})
 
-            const thisUser = await userModel.findById(id_user);
+            //let newProduct= await this.#getProduct(id_prod)
+            //let newProduct= await ProductModel.findById(id_prod);
+            let newProduct = await ProductModel.findOne({id:id_prod})
+            //console.log(`Np: ${newProduct}`)
+            //ToDo: add minus stock
+
+
+            //const thisUser = await userModel.findById(id_user);
             //const updated = await CartModel.find({ user: thisUser }).populate("products",{_id:1});
 
-            
+            const cart = await CartModel.findOne({idDB:id_user});
+            //console.log(cart.products)
 
-            const productList = await CartModel.find({user:thisUser});
-            
-            let list =productList.filter(product=>product.id==id_user)
-            // let flag = false
-            // for (let i = 0; i < productList.products.length; i++) {
-            //     if(products[i]._id = id_prod ){flag=true}
-            // }
-            console.log(list)
+            //const cart = cartArray[0]
+            //flag for know if the product is inside of cart
+            let inside = false
 
-            if(list){
+            for (const prod of cart.products) {
+                if(prod.id == id_prod) {
 
-                //toDO : cart.products.totalItems y cart.products.totalPrice
-                logInfo.info(`added in cart again: ${newProduct.name}  ruta /carts/id_user/products/id_prod`)
-                return res.status(200).json({ data: list})
-            }else{
+                    console.log("entró")
+                    inside = true;
+                    cart.totalItems += 1//parseInt(prod.cantidad);
+                    cart.totalPrice += prod.price
+                    prod.quantity += 1
+                    
+                    cart.save()
+                    logInfo.info(`added in cart again: ${prod.name}  ruta /carts/id_user/products/id_prod`)
+                    //return res.render('purchase',{message: `Se agregó el producto al carrito`})
+                    return this.#renderPurchase(req.user)
+                    
+                }
+            }
 
-            await CartModel.findOneAndUpdate( thisUser,
+            if(inside==false){
+
+            cart.totalPrice +=newProduct.price
+            cart.totalItems +=1
+            newProduct.quantity+=1
+            //cart.products.push(newProduct)
+            await cart.save()
+            await CartModel.findOneAndUpdate( {idDB:id_user},
                 {$push: {
                         'products':newProduct,
                         },
                 })
             logInfo.info(`added to cart: ${newProduct.name}  ruta /carts/id_user/products/id_prod`)
             }
-            return res.status(200).json({ message: 'Cart updated!'})
+            return this.#renderPurchase(res,req.user)
+            //return res.redirect('/purchase',{message: `Se agregó el producto al carrito`})
         } catch(err) {
-            return res.status(404).json({ message: `Failed to update Cart ${err}`})
+            errorLogger.error("error to add item, function updateById")
+            return res.render('errors',{message:err,route: "session/purchase",zone:"compras"})
+            
         }
     }
 

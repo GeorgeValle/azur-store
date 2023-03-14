@@ -10,7 +10,7 @@ import cart from '../controllers/ManagerCart.js';
 
 
 //create a new instance of the managerCart, Important!: only put id of product book
-routes.post('/', cart.saveData)
+//routes.post('/', cart.saveData)
 
 routes.post('/:id_user',cart.createOneCart)
 
@@ -20,7 +20,7 @@ routes.post('/:id_user',cart.createOneCart)
 routes.get('/:id_user/products/:id_prod', cart.updateById)
 
 //get a Cart by identifier
-routes.get('/:id', cart.getById)
+routes.get('/:id_user', cart.getById)
 
 //get a list of carts
 routes.get('/', cart.getAll)

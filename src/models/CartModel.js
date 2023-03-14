@@ -3,16 +3,16 @@ import mongoose from 'mongoose';
 const {Schema, model} = mongoose;
 
 const cartSchema = new Schema({
-    user:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user"},
+    idDb:{
+        type:String,
+        default:""
+    },
     timestamp:{
         type: Date,
         default: Date.now(),
     },
     products:[{ 
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"product",
+        type: Array,
         unique: true,
         default: [],
         
@@ -24,6 +24,12 @@ const cartSchema = new Schema({
     totalPrice:{
         type: Number,
         default:0
+    },
+    address:{
+        type:String
+    },
+    email:{
+        type:String
     }
     
 })
