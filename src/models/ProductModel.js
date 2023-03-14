@@ -2,7 +2,7 @@ import {Schema,model} from 'mongoose';
 
 const productSchema = new Schema({
     idDB:{
-        type: Number
+        type: String,
     },
     name:{
         type:String,

@@ -12,11 +12,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-        {{# if admin }}
+        {{#if admin }}
         <li class="nav-item">
           <a class="nav-link" href="/session/inputProduct">Editar Productos</a>
         </li>
         {{/if}}
+        <li class="nav-item">
+                    <a class="nav-link" href="/session/cart">Carrito</a>
+                </li>
         <li class="nav-item">
           <a class="nav-link" href="/session/logout">Salir</a>
         </li>
@@ -36,7 +39,7 @@
         <div class="card-body">
           <h5 class="card-title">{{user}}</h5>
           <p class="card-text">Selecciona los productos a comprar</p>
-          {{# if message}}
+          {{#if message}}
           <p class="card-text text-success mx-4">{{message}}</p>
           {{/if}}
           <p class="card-text"></p>
@@ -48,7 +51,7 @@
 
 
 
-{{# if products }}
+{{#if products }}
 {{!-- <template id="template-card"> --}}
   
   {{!-- <div class="card-group">
@@ -56,9 +59,9 @@
     
     <div class="col-12 mb-2 col-md-4"> --}}
 
-  {{# each products }}
+  {{#each products }}
   <div class="row  g-4">
-    {{# each this }}
+    {{#each this }}
     <div class="col"-sm-6 col-md-4>
       <div class="card">
         <img src={{this.thumbnail}} alt={{this.name}} class="card-img-top">
@@ -68,7 +71,7 @@
           <p class="card-text text-muted">{{this.description}}</p>
         </div>
         <div class="card-footer">
-          <a href="/carts/{{this.userId}}/products/{{this._id}}"  class="btn btn-dark btn-sm" role="button" method="post">Agregar al carrito</a>
+          <a href="/carts/{{this.userId}}/products/{{this._id}}"  class="btn btn-dark btn-sm" role="button" >Agregar al carrito</a>
         </div>
       </div>
     </div>

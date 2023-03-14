@@ -12,13 +12,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                {{# if admin }}
+                {{#if admin }}
                 <li class="nav-item">
                     <a class="nav-link" href="/session/inputProduct">Editar Productos</a>
                 </li>
                 {{/if}}
                 <li class="nav-item">
                     <a class="nav-link" href="/session/purchase">Comprar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/session/cart">Carrito</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/session/logout">Salir</a>
@@ -29,7 +32,43 @@
     </div>
 </nav>
 
-<div class="container-fluid mb-2 mb-lg-0 ">
+{{#if cart}}
+    {{#if products }}
+        <div class="cart page">
+            <ul class="list-group">
+                {{#each products }}
+                <li class="list-group-item clearfix">
+                    <div class="col-xs-5">
+                        <strong>{{ this.name }}</strong><br/>
+                        <em>{{{this.description}}}</em>
+                    </div>
+                    <div class="col-xs-2 text-right">
+                        <span class="badge">{{ this.quantity }}</span>
+                    </div>
+                    <div class="col-xs-3 text-right">
+                        ${{ this.price }}
+                    </div>
+                    <div class="col-xs-2 text-right">
+                        <a href="/cart/{{this.userId}}/products/{{this._id}}" class="btn btn-dark btn-sm" role="button"></i> Eliminar</a>
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    {{/if}}
+    <div class="text-right">
+        <strong>Total: ${{ totalPrice }} </strong>
+    </div>
+    <hr>
+    <div class="text-right">
+        <a href="#" type="button" class="btn btn-success">Checkout</a>
+    </div>
+{{ else }}
+    <p>El carrito está vacio</p>
+{{/if}}
+
+
+{{!-- <div class="container-fluid mb-2 mb-lg-0 ">
     <div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-4">
@@ -89,4 +128,4 @@
         </td>
         <td>$ <span>500</span></td>
       </tr>
-    </template>
+    </template> --}}

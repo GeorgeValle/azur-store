@@ -29,7 +29,7 @@ routes.get('/', cart.getAll)
 routes.delete('/:id', cart.deleteCart)
 
 //delete product by identifier
-routes.delete('/:id/productos/:id_prod', cart.deleteById)
+routes.delete('/:id/products/:id_prod', cart.deleteById)
 
 const cartRouter = routes
 export {cartRouter}
