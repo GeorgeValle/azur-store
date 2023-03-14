@@ -1,6 +1,9 @@
 import {Schema,model} from 'mongoose';
 
 const productSchema = new Schema({
+    idDB:{
+        type: Number
+    },
     name:{
         type:String,
         required:true
