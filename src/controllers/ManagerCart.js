@@ -15,10 +15,10 @@ class Cart{
             
             let addressUser = user.address
             let emailUser = user.username
-            const cart = await CartModel.find({idBD:id_user})
+            const cart = await CartModel.find({idUser:id_user})
             if(!cart[0]){
                 
-                await CartModel.create({idBD:id_user,address:addressUser,email:emailUser})
+                await CartModel.create({idUser:id_user,address:addressUser,email:emailUser})
                 
                 logInfo.info(`Cart of ${user.name} create`)
                 
@@ -100,7 +100,7 @@ class Cart{
             //Validations
             if (!id_user) return res.status(400).json( {message: "Id required"});
 
-            const cart = await CartModel.find({idBD:id_user})
+            const cart = await CartModel.find({idUser:id_user})
             if(!cart) return res.status(404).json({ message: 'Cart does not exits'})
             return res.status(200).json(cart)
         } catch(err) {
@@ -118,7 +118,7 @@ class Cart{
             //if (!id_user) return res.status(400).json( {message: "Id required"});
 
             const carts = await CartModel.find()
-            const cart =  carts.filter(cart=>cart.idBD==id_user)
+            const cart =  carts.filter(cart=>cart.idUser==id_user)
             console.log(`get cart: ${cart}`)
             // if(!cart[0]){
             // logInfo.info('Cart does not exits')
@@ -143,7 +143,7 @@ class Cart{
             if (!id) return res.status(400).json( {message: "Id required"});
             const { id_prod } = req.params;
             if (!id_prod) return res.status(400).json( {message: "Product ID required"});
-            let seeProduct = await CartModel.findOne({ id: id})
+            let seeProduct = await CartModel.findOne({ idUser: id})
             let item = seeProduct.products.find(id_prod)
             if(!item){return res.status(200).json({message:"ok",data:item})}
         }catch(err){
@@ -177,7 +177,7 @@ class Cart{
             //const thisUser = await userModel.findById(id_user);
             //const updated = await CartModel.find({ user: thisUser }).populate("products",{_id:1});
 
-            const cart = await CartModel.findOne({idDB:id_user});
+            const cart = await CartModel.findOne({idUser:id_user});
             //console.log(cart.products)
 
             //const cart = cartArray[0]
@@ -203,14 +203,14 @@ class Cart{
             }
 
             if(inside==false){
-
+            
             cart.totalPrice +=newProduct.price
             cart.totalItems +=1
             newProduct.quantity+=1
             newProduct.userId=id_user
             //cart.products.push(newProduct)
             await cart.save()
-            await CartModel.findOneAndUpdate( {idDB:id_user},
+            await CartModel.findOneAndUpdate( {idUser:id_user},
                 {$push: {
                         'products':newProduct,
                         },
@@ -235,7 +235,7 @@ class Cart{
             if (!id) return res.status(400).json( {message: "Id required"});
             const { id_prod } = req.params;
             if (!id_prod) return res.status(400).json( {message: "Product Id required"});
-            const deleted = await CartModel.updateOne({idBd: id}, {$pull: {products: id_prod }})
+            const deleted = await CartModel.updateOne({idUser: id}, {$pull: {products: id_prod }})
             await deleted.save();
             // let arrayProducts = await CartModel.find({idBD:id})
             // let products= arrayProducts.products
