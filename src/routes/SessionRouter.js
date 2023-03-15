@@ -154,21 +154,21 @@ route.get('/cart', async (req, res)=>{
         if(req.user.admin==true){ access = true }
         let myObjectId =req.user._id
         
-        //let oneCart = cart.getByIdUser(myObjectId.toString(),req, res)
-        const carts = cart.getAllCarts()
-        console.log(`los cart: ${carts}`)
+        let oneCart = await cart.getByIdUser(myObjectId.toString())
+        //const carts = cart.getAllCarts()
+        console.log(`one cart: ${oneCart}`)
 
-        const oneCart ={}
-        for (let i = 0; i < carts.length; i++) {
-            if(carts[i].userId == myObjectId.toString()){
-                oneCart=carts[i]
-            }
-        }
+        // const oneCart ={}
+        // for (let i = 0; i < carts.length; i++) {
+        //     if(carts[i].userId == myObjectId.toString()){
+        //         oneCart=carts[i]
+        //     }
+        // }
 
         //const oneCart = carts.filter(cart=>cart.idBD==id_user)
         
         
-        let items=oneCart.products
+        let items=[oneCart.products]
         console.log(`items: ${items}`)
         res.render('cart',{
             user: req.user.name, avatar: req.user.avatar, admin:access, products: items, cart:oneCart 
