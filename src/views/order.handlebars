@@ -1,0 +1,66 @@
+<div class="page-header">
+    <h1 class="mx-3">Orden de Compra</h1>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand text-center fw-bolder text-white text-wrap" href="#">Azur Store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                {{#if admin }}
+                <li class="nav-item">
+                </li>
+                <a class="nav-link" href="/session/inputProduct">Editar Productos</a>
+                {{/if}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/session/purchase">Comprar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/session/cart">Carrito</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/session/logout">Salir</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<div class="col-md-8">
+    <div class="card-body">
+        <h5 class="card-title">{{user}}</h5>
+        <h3 class="card-text">Tu orden se ha completado</h3>
+
+        <p class="card-text text-success mx-4">En instantes recibirás un email con los detalles de la transacción</p>
+        <p class="card-text text-success mx-4">Orden numero{{nOrder}}</p>
+
+        <p class="card-text"> Total: {{total}}</p>
+    </div>
+</div>
+
+
+<div class="cart page">
+    <div class="card-group">
+    {{#each products }}
+        <div class="card">
+        {{#each this }}
+            <div class="card-body">
+                <h5 class="card-title">{{ this.name }}</h5>
+            </div>
+            <div class="card-text">
+                ${{this.price}}
+            </div>
+            <div class="card-footer">  
+            </div>
+        {{/each }}
+            </div>
+    {{/each }}
+        </div>
+    </div>
+</div>

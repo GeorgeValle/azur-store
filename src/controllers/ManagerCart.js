@@ -30,19 +30,6 @@ class Cart{
         }
     }
 
-    // #getProduct = async id_prod => {
-        
-    //     try{
-    //     let productArray = await ProductModel.findOne({id:id_prod});
-    //     let product = productArray[0];
-    //     return product;
-    //     }catch(err){
-    //         errorLogger.error(`product not found ${err}`)
-    //         res.render('errors',{message:err,route: "session/purchase",zone:"compras"})
-            
-    //     }
-    // }
-
     #renderPurchase = async (res,user) =>{
     let products = await book.getAllP()
         //flag the admin access
@@ -82,14 +69,25 @@ class Cart{
     
     //create one cart whit a Id_user from params
     createOneCart= async (req, res)=>{
-        try{
             const { id_user } = req.params
-            await this.#createCart(id_user)
-        }catch(err){
-            errorLogger.error("error to create Cart, function createOneCart")
-            res.render('errors',{message:err,route: "session/purchase",zone:"/compras"})
-        }
-    }
+            //await this.#createCart(id_user)
+                try{
+                    const user = await userModel.findById(id_user)
+                    if(!user){errorLogger.error("NO found user for function createCart")}
+                    let addressUser = user.address
+                    let emailUser = user.username
+                    const cart = await CartModel.findOne({idUser:id_user})
+                    if(!cart[0]){
+                        const newCart = await CartModel.create({idUser:id_user,address:addressUser,email:emailUser})
+                        logInfo.info(`Cart of ${user.name} create`)
+                    return res.status(200).json( {data: newCart});    
+                    }
+                }catch(err){
+                    errorLogger.error(`cart not created ${err}`)
+                    return res.status(400).json( {message: `cart not created ${err}`});
+                }
+            }
+    
 
     //obtain a cart whit the id_user
     getById = async (req,res) => {
@@ -108,36 +106,23 @@ class Cart{
             return res.status(404).json({ message: 'cart does not exits'});
         }
     }
-    //obtain one cart whit an id_user
+    //obtain one cart whit an id_user 
     getByIdUser= async (id_user) => {
         //Validations
         try {
-            
-            //const { id_user } = req.params
-            //Validations
-            //if (!id_user) return res.status(400).json( {message: "Id required"});
-
-            // const carts = await CartModel.find()
-            // const cart =  carts.filter(cart=>cart.idUser==id_user)
 
             const cart = await CartModel.findOne({idUser:id_user})
-            console.log(`get cart by user: ${cart}`)
-            // if(!cart[0]){
-            // logInfo.info('Cart does not exits')
-            // return cart[0]
-            // }else{
+            
                 return cart
             //}
         } catch(err) {
             errorLogger.error(`error to obtain a Cart, getByIdUser: ${err}`);
-            //return res.status(404).json({ message: 'cart does not exits'});
         }
     }
 
 
-
+    //get a item of a cart from thunder client
     getItemById = async (req,res) => {
-
         try {
             
             const { id } = req.params
@@ -146,16 +131,22 @@ class Cart{
             const { id_prod } = req.params;
             if (!id_prod) return res.status(400).json( {message: "Product ID required"});
             let seeProduct = await CartModel.findOne({ idUser: id})
-            let item = seeProduct.products.find(id_prod)
+            let items = seeProduct.products
+            let item = {}
+            for (let i = 0; i < items.length; i++) {
+                if(items[i]._id == id_prod){
+                    item=items[i]
+                }
+            }
             if(!item){return res.status(200).json({message:"ok",data:item})}
         }catch(err){
             errorLogger.error(`no se encontró item ${err}`)
-
+            res.status(400).json( {message: `no se encontró item ${err}`});
         }
 
     }
 
-    //add a product in a cart 
+    //add a product in a cart from thunder client
     updateById= async (req, res) => {
 
         try {
@@ -167,39 +158,81 @@ class Cart{
             const { id_prod } = req.params;
             if (!id_prod) return res.status(400).json( {message: " Product ID required"});
 
-            //let newProduct= await book.getBook(id_prod);
-
-            //let newProduct= await this.#getProduct(id_prod)
-            //let newProduct= await ProductModel.findById(id_prod);
             let newProduct = await ProductModel.findOne({id:id_prod})
-            //console.log(`Np: ${newProduct}`)
-            //ToDo: add minus stock
-
-
-            //const thisUser = await userModel.findById(id_user);
-            //const updated = await CartModel.find({ user: thisUser }).populate("products",{_id:1});
 
             const cart = await CartModel.findOne({idUser:id_user});
-            console.log(cart.products)
 
-            //const cart = cartArray[0]
             //flag for know if the product is inside of cart
             let inside = false
 
             for (const prod of cart.products) {
                 if(prod._id == id_prod) {
 
-                    console.log("entró")
                     inside = true;
-                    cart.totalItems += 1//parseInt(prod.cantidad);
+                    cart.totalItems += 1;
+                    cart.totalPrice += prod.price;
+                    prod.quantity += 1;
+                    cart.save()
+                    logInfo.info(`added in cart again:  ruta /carts/id_user/products/id_prod`)
+                    return res.status(200).json({message: "Product added: ", data:newProduct})
+                }
+            }
+
+            if(inside==false){
+            
+            cart.totalPrice +=newProduct.price
+            cart.totalItems +=1
+            newProduct.quantity+=1
+            newProduct.userId=id_user
+            //cart.products.push(newProduct)
+            cart.save()
+            await CartModel.findOneAndUpdate( {idUser:id_user},
+                {$push: {
+                        'products':newProduct,
+                        },
+                })
+            logInfo.info(`added to cart:  ruta /carts/id_user/products/id_prod`)
+            }
+            
+            return res.status(200).json({message: "Product added: ", data:newProduct})
+            
+        } catch(err) {
+            errorLogger.error("error to add item, function updateById")
+            return res.status(400).json({message: "Product not added"})
+        }
+    }
+
+
+    //add a product in a cart from frontend
+    updateByIdFront= async (req, res) => {
+
+        try {
+            
+            const { id_user } = req.params
+            if (!id_user) return res.status(400).json( {message: "Id required"});
+            await this.#createCart(id_user)
+            
+            const { id_prod } = req.params;
+            if (!id_prod) return res.status(400).json( {message: " Product ID required"});
+
+            let newProduct = await ProductModel.findOne({id:id_prod})
+
+            const cart = await CartModel.findOne({idUser:id_user});
+
+            //flag for know if the product is inside of cart
+            let inside = false
+
+            for (const prod of cart.products) {
+                if(prod._id == id_prod) {
+
+                    inside = true;
+                    cart.totalItems += 1
                     cart.totalPrice += prod.price
                     prod.quantity += 1
 
                     
                     cart.save()
-                    logInfo.info(`added in cart again:  ruta /carts/id_user/products/id_prod`)
-                    //return res.render('purchase',{message: `Se agregó el producto al carrito`})
-                    return this.#renderPurchase(req.user)
+                    logInfo.info(`added in cart again:  ruta /carts/id_user/products/id_prod`)                   
                     
                 }
             }
@@ -219,18 +252,13 @@ class Cart{
                 })
             logInfo.info(`added to cart:  ruta /carts/id_user/products/id_prod`)
             }
-            //return this.#renderPurchase(res,req.user)
-            //return res.status(200)
-            //return res.redirect('/purchase',{message: `Se agregó el producto al carrito`})
         } catch(err) {
-            errorLogger.error("error to add item, function updateById")
+            errorLogger.error("error to add item, function updateByIdFront")
             return res.render('errors',{message:err,route: "session/purchase",zone:"compras"})
-            
         }
     }
 
-    //delete a product from a cart
-
+    //delete a product from a cart from thunder client
     deleteById =async (req,res)=> {
         try{
             const { id } = req.params;
@@ -239,69 +267,68 @@ class Cart{
             if (!id_prod) return res.status(400).json( {message: "Product Id required"});
             const deleted = await CartModel.updateOne({idUser: id}, {$pull: {products: id_prod }})
             await deleted.save();
-            // let arrayProducts = await CartModel.find({idBD:id})
-            // let products= arrayProducts.products
-            // let update= products.filter(product =>product.idBD === id_prod)
-            //let cart = await CartModel.findOneAndUpdate({user:id}, { $set:{product: update}}, {new: true}, {
-
-            //});
-
-
-
             return res.status(200).json({ message: 'Product deleted!', data: deleted})
             }catch(err) {
-                    console.log(err);
-                    return res.status(404).json({ message: 'Failed to delete product'})
+                    return res.status(404).json({ message: `Failed to delete product: ${err}`})
             }
     }
-    // deleteById = async (req,res) => {
-    //     try {
-    //         const { id } = req.params;
-    //         if (!id) return res.status(400).json( {message: "Id required"});
-    //         const { id_prod } = req.params;
-    //         if (!id_prod) return res.status(400).json( {message: "Product Id required"});
+    
+    //delete a product from a cart from Frontend
+    deleteByIdFront =async (req,res)=> {
+        try{
+            const { id } = req.params;
+            if (!id) return res.status(400).json( {message: "Id required"});
+            const { id_prod } = req.params;
+            if (!id_prod) return res.status(400).json( {message: "Product Id required"});
+            const deleted = await CartModel.updateOne({idUser: id}, {$pull: {products: id_prod }})
+            await deleted.save();
+            logInfo.info(`Product deleted  ruta /carts/id_user/products/id_prod`)
+            }catch(err) {
+                    errorLogger.error("error to delete item, function deleteByIdFront")
+            }
+    }
 
-    //         const deleted = await CartModel.findByIdAndUpdate(id,
-    //             {$pull: {
-    //                     products:{_id:id_prod}
-    //                     }
-    //             },
-    //             { safe: true }
-    //         );
 
-    //         return res.status(200).json({ message: 'Product deleted!', data: deleted})
-    //     } catch(err) {
-    //         console.log(err);
-    //         return res.status(404).json({ message: 'Failed to delete product'})
-    //     }
-    // }
-
-    //delete a cart whit params
+    //delete a cart from thunder client
     deleteCart = async (req,res) => {
         try {
-            const { id } = req.params
-            if (!id) return res.status(400).json( {message: "Cart Id required"});
-            const cartDeleted = await CartModel.findByIdAndDelete(id)
+            const { id_user } = req.params
+            if (!id_user) return res.status(400).json( {message: "Cart Id required"});
+            const cartDeleted = await CartModel.findOneAndDelete({idUser:id_user})
             if (!cartDeleted) return res.status(404).json({ message: 'Cart does not exists'})
             return res.status(200).json({ message: 'Cart deleted!', data: cartDeleted})
         }catch(err){return res.status(404).json({ message: 'Failed to delete cart'})}
     }
 
+    //delete cart from Frontend
+    deleteCartFront = async (req,res) => {
+        try {
+            const { id } = req.params
+            if (!id) return res.status(400).json( {message: "Cart Id required"});
+            const cartDeleted = await CartModel.findByIdAndDelete(id)
+            if (!cartDeleted) return res.status(404).json({ message: 'Cart does not exists'})
+            logInfo.info(`cart deleted  ruta /carts/delete/:id`)
+            return res.status(200).json({ message: 'Cart deleted!', data: cartDeleted})
+        }catch(err){
+            errorLogger.error("Failed to delete cart, route /carts/delete/:id")
+        }
+    }
+
+    //obtain a list of carts from thunder client
     async getAll(req , res) {
 
         const carts = await CartModel.find()
         
-        return res.status(200).json({data:carts})
+        return res.status(200).json({message: "all carts: ", data:carts})
     }
 
+        //obtain a list of carts
     async getAllCarts(req , res) {
 
         const carts = await CartModel.find()
         return carts
-        //return res.status(200).json({data:carts})
     }
 
-    
 }
 
 export default new Cart();
