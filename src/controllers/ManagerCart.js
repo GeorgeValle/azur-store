@@ -109,7 +109,7 @@ class Cart{
         }
     }
     //obtain one cart whit an id_user
-    getByIdUser= async (id_user, req, res) => {
+    getByIdUser= async (id_user) => {
         //Validations
         try {
             
@@ -117,9 +117,11 @@ class Cart{
             //Validations
             //if (!id_user) return res.status(400).json( {message: "Id required"});
 
-            const carts = await CartModel.find()
-            const cart =  carts.filter(cart=>cart.idUser==id_user)
-            console.log(`get cart: ${cart}`)
+            // const carts = await CartModel.find()
+            // const cart =  carts.filter(cart=>cart.idUser==id_user)
+
+            const cart = await CartModel.findOne({idUser:id_user})
+            console.log(`get cart by user: ${cart}`)
             // if(!cart[0]){
             // logInfo.info('Cart does not exits')
             // return cart[0]
@@ -178,14 +180,14 @@ class Cart{
             //const updated = await CartModel.find({ user: thisUser }).populate("products",{_id:1});
 
             const cart = await CartModel.findOne({idUser:id_user});
-            //console.log(cart.products)
+            console.log(cart.products)
 
             //const cart = cartArray[0]
             //flag for know if the product is inside of cart
             let inside = false
 
             for (const prod of cart.products) {
-                if(prod.id == id_prod) {
+                if(prod._id == id_prod) {
 
                     console.log("entró")
                     inside = true;
@@ -195,7 +197,7 @@ class Cart{
 
                     
                     cart.save()
-                    logInfo.info(`added in cart again: ${prod.name}  ruta /carts/id_user/products/id_prod`)
+                    logInfo.info(`added in cart again:  ruta /carts/id_user/products/id_prod`)
                     //return res.render('purchase',{message: `Se agregó el producto al carrito`})
                     return this.#renderPurchase(req.user)
                     
@@ -209,16 +211,16 @@ class Cart{
             newProduct.quantity+=1
             newProduct.userId=id_user
             //cart.products.push(newProduct)
-            await cart.save()
+            cart.save()
             await CartModel.findOneAndUpdate( {idUser:id_user},
                 {$push: {
                         'products':newProduct,
                         },
                 })
-            logInfo.info(`added to cart: ${newProduct.name}  ruta /carts/id_user/products/id_prod`)
+            logInfo.info(`added to cart:  ruta /carts/id_user/products/id_prod`)
             }
             //return this.#renderPurchase(res,req.user)
-            return res.status(200)
+            //return res.status(200)
             //return res.redirect('/purchase',{message: `Se agregó el producto al carrito`})
         } catch(err) {
             errorLogger.error("error to add item, function updateById")
@@ -274,7 +276,7 @@ class Cart{
     //     }
     // }
 
-    //delete a cart
+    //delete a cart whit params
     deleteCart = async (req,res) => {
         try {
             const { id } = req.params
