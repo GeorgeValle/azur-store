@@ -5,10 +5,6 @@ const routes= Router();
 
 //casting class book
 import book from'../controllers/ManagerBook.js';
-// import book from'../controllers/ManagerBookFire.js';
-//dynamic import:
-// const book = await import('../controllers/ManagerBook.js');
-//book.default();
 
 
 //let isAdmin=true;
@@ -18,10 +14,15 @@ routes.get('/health', (req, res) => {
     return res.status(200).json({ message: 'Server is on... '})
 })
 
-//create a new instance of the managerBook
-routes.post('/',book.saveData)
+//create a new instance of the product Book from frontend
+routes.post('/',book.saveDataFront)
 
-//get all books
+//create a new instance of the product Book from thunder client
+routes.post('/new',book.saveData)
+
+
+
+//get all books thunder client
 routes.get('/', book.getAll)
 
 //get a book by identifier

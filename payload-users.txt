@@ -50,7 +50,7 @@ https://res.cloudinary.com/georgevalle/image/upload/c_scale,w_175/v1674022329/th
 "thumbnail":"https://res.cloudinary.com/georgevalle/image/upload/v1673925240/thumbnails/avatars/mi-perfil-178px_sqipzr.jpg"
 }
 
-#usuario admin:
+#usuario admi:
 
 {
 "username":"jorgevalle@outlook.com.ar",

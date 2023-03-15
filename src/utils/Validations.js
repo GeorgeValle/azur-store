@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-
+// validations for user creation
 const createUserValidation = (data) => {
     const schema = yup.object().shape({
         // name: yup.string().min(5).matches(/^[a-z]+$/).required()
@@ -29,8 +29,8 @@ const createUserValidation = (data) => {
             .positive('solo números positivos'),
             
         avatar: yup
-            .string('El campo name debe ser un string')
-                    
+            .string('El campo name debe ser un string'),
+                
     })
     schema.validateSync(data)
 }

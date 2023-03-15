@@ -8,7 +8,7 @@ import cart from '../controllers/ManagerCart.js';
 
 
 
-
+//enter in view home
 route.get('/', (req, res) => {
     if (!req.isAuthenticated()) {
         res.render('home')
@@ -18,6 +18,7 @@ route.get('/', (req, res) => {
     }
 })
 
+//enter in view register
 route.get('/register', (req, res) => {
     if (!req.isAuthenticated()) {
         res.render('signup')
@@ -27,7 +28,7 @@ route.get('/register', (req, res) => {
     }
 })
 
-
+//create an user
 route.post('/register', passport.authenticate('register', {
     failureRedirect: 'failureRegister/'}),
 (req, res) => {
@@ -36,6 +37,7 @@ route.post('/register', passport.authenticate('register', {
 }
 )
 
+//enter in view login
 route.get('/login', (req, res) => {
     if (!req.isAuthenticated()) {
         res.render('login')
@@ -45,11 +47,13 @@ route.get('/login', (req, res) => {
     }
 })
 
+//login an user
 route.post('/login', passport.authenticate('login', { failureRedirect: 'failureLogin/'}), (req, res) => {
     logInfo.info('login successful')
     res.redirect('/session/purchase')
 })
 
+//an admin input products in this view
 route.get('/inputProduct', (req, res) => {
     if (req.isAuthenticated()&&req.user.admin===true) {
         res.render('input-product',{user: req.user.name})
@@ -59,6 +63,7 @@ route.get('/inputProduct', (req, res) => {
     }
 })
 
+// enter en view logout
 route.get('/logout', (req, res) => {
     if (req.isAuthenticated()) {
         logger.info(`El usuario ${req.user.username}  ha salido en ruta get logout`)
@@ -67,8 +72,6 @@ route.get('/logout', (req, res) => {
         res.redirect('/session/login')
     }
 })
-
-
 
 //route for logout passport session
 route.delete('/logout', function(req, res) {
@@ -80,48 +83,29 @@ route.delete('/logout', function(req, res) {
         })
 })
 
-
+// fail login view
 route.get('/failureLogin', (req, res) => {
     logger.warn(`intento fallido de inicio de sesión`)
     res.render('fail-login')
 })
 
+// fail login view
 route.post('/failureLogin', (req, res) => {
     res.render('fail-login')
 })
 
+// fail signup view
 route.get('/failureRegister', (req, res) => {
     logger.error(`intento fallido de registro`)
     res.render('fail-register')
 })
 
+// fail signup view
 route.post('/failureRegister', (req, res) => {
     res.render('fail-register')
 })
 
-// route.post('/purchase', async (req, res)=>{
-//     if(req.isAuthenticated()){
-//         logger.info(`El usuario ${req.user.username} accedió al sector de compra`)
-//         let products = await book.getAllP()
-//         //flag the admin access
-//         let access = false
-//         if(req.user.admin==true){ access = true }
-        
-//         //cast object id in string
-//         let myObjectId =req.user._id
-//         //add value in each product
-//         for (let i = 0; i < products.length; i++) {
-//             products[i].userId = myObjectId.toString()
-//         }
-
-//         res.render('purchase',{
-//             user: req.user.name, avatar: req.user.avatar, admin:access, products: products ,message: "post"
-//             })
-
-//     }
-//     else{ res.redirect('/')}
-// })
-
+//enter in the view purchase
 route.get('/purchase', async (req, res)=>{
     if(req.isAuthenticated()){
         logger.info(`El usuario ${req.user.username} accedió al sector de compra`)
@@ -144,9 +128,8 @@ route.get('/purchase', async (req, res)=>{
     }
     else{ res.redirect('/')}
 })
-// route.get('/purchase', book.getAllProducts)
-//route.get('/user', userModel.getById)
 
+//enter in the view cart
 route.get('/cart', async (req, res)=>{
     if(req.isAuthenticated()){
         logger.info(`El usuario ${req.user.username} accedió al sector de Carrito`)
@@ -155,28 +138,15 @@ route.get('/cart', async (req, res)=>{
         let myObjectId =req.user._id
         
         let oneCart = await cart.getByIdUser(myObjectId.toString())
-        //const carts = cart.getAllCarts()
-        console.log(`one cart: ${oneCart}`)
-
-        // const oneCart ={}
-        // for (let i = 0; i < carts.length; i++) {
-        //     if(carts[i].userId == myObjectId.toString()){
-        //         oneCart=carts[i]
-        //     }
-        // }
-
-        //const oneCart = carts.filter(cart=>cart.idBD==id_user)
-        
         
         let items=[oneCart.products]
-        console.log(`items: ${items}`)
+        
         res.render('cart',{
-            user: req.user.name, avatar: req.user.avatar, admin:access, products: items, cart:oneCart 
+            user: req.user.name, admin:access, products: items, cart:oneCart 
             })
 
     }
 })
-
 
 const sessionRouter = route; 
 export {sessionRouter};

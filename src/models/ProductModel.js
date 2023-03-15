@@ -1,9 +1,6 @@
 import {Schema,model} from 'mongoose';
 
 const productSchema = new Schema({
-    idDB:{
-        type: String,
-    },
     name:{
         type:String,
         required:true
@@ -16,7 +13,10 @@ const productSchema = new Schema({
         type:Number,
         default:0
     },
-    description:String,
+    description:{
+        type:String,
+        required:true
+    },
     code:{
         type:Number,
         required:true
