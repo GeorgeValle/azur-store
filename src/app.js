@@ -119,7 +119,7 @@ app.get('/home',(req, res)=>{
 app.use('/products',productRouter);
 app.use('/carts',cartRouter);
 app.use('/session',sessionRouter);
-app.use('/order',orderRouter);
+app.use('/orders',orderRouter);
 
 //message for inexistent routes
 app.use((req, res) => {

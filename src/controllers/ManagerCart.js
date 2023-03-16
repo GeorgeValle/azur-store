@@ -53,7 +53,7 @@ class Cart{
     //create one cart whit a Id_user from params
     createOneCart= async (req, res)=>{
             const { id_user } = req.params
-            //await this.#createCart(id_user)
+            
                 try{
                     const user = await userModel.findById(id_user)
                     if(!user){errorLogger.error("NO found user for function createCart")}

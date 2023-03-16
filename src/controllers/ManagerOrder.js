@@ -48,24 +48,35 @@ class Order{
 
             return res.status(200).json({message: "Order generated: ", data:NewOrder})
         }catch(err){
-            errorLogger.error(`order no generated: ${err}`)
-            return res.status(400).json({message: `order no generated: ${err}`})
+            errorLogger.error(`order not generated: ${err}`)
+            return res.status(400).json({message: `order not generated: ${err}`})
         }
     }
 
     async getOrder(req, res) {
         try{
 
-        }catch(err){
+            const { num_order } = req.params
 
+            const order = await OrderModel.findOne({numOrder:num_order})
+
+            return res.status(200).json({message: "Order found: ", data:order})
+        }catch(err){
+            errorLogger.error(`order not found : ${err}`)
+            return res.status(400).json({message: `order not found: ${err}`})
         }
     }
 
     async getOrdersByUser(req, res) {
         try{
+            const { id_user } = req.params
 
+            const orders = await OrderModel.find({userId:id_user})
+
+            return res.status(200).json({message: "Orders of User: ", data:orders})
         }catch(err){
-
+            errorLogger.error(` User's orders not found : ${err}`)
+            return res.status(400).json({message: `User's orders not found : ${err}`})
         }
     }
 

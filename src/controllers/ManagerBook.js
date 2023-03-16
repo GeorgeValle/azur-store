@@ -88,6 +88,20 @@ class Book{
         }
     }
     
+
+    getByCategory= async (req, res) =>{
+        try{
+            const { category } = req.params
+
+            const products= await ProductModel.find({category:category})
+
+            return res.status(200).json({data:products}) 
+        }catch(err){
+            return res.status(404).json({ message: 'Products does not exist'})
+        }
+    }
+
+
     //update from thunder client
     updateById= async (req , res) => {
         try {
