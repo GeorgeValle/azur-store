@@ -19,13 +19,14 @@ routes.post('/',book.saveDataFront)
 //create a new instance of the product Book from thunder client
 routes.post('/new',book.saveData)
 
-
-
 //get all books thunder client
 routes.get('/', book.getAll)
 
 //get a book by identifier
 routes.get('/:id', book.getById)
+
+// get for category
+routes.get('/category/:category', book.getByCategory)
 
 //update by identifier
 routes.put('/:id', book.updateById)
