@@ -282,3 +282,14 @@
 [2023-03-15T17:20:27.890] [INFO] DEV - El usuario jorgeguillermovalle@gmail.com accedió al sector de compra
 [2023-03-15T17:23:20.123] [INFO] DEV - El usuario jorgeguillermovalle@gmail.com accedió al sector de Carrito
 [2023-03-15T17:23:59.862] [INFO] DEV - El usuario jorgeguillermovalle@gmail.com  ha salido en ruta get logout
+[2023-03-15T19:50:36.934] [WARN] DEV - intento fallido de inicio de sesión
+[2023-03-15T19:50:54.679] [INFO] DEV - El usuario jorgevalle@outlook.com.ar accedió al sector de compra
+[2023-03-15T19:58:12.184] [INFO] DEV - El usuario jorgevalle@outlook.com.ar accedió al sector de Carrito
+[2023-03-15T19:58:51.613] [INFO] DEV - El usuario jorgevalle@outlook.com.ar accedió al sector de compra
+[2023-03-15T22:56:18.344] [INFO] DEV - El usuario jorgevalle@outlook.com.ar accedió al sector de compra
+[2023-03-15T23:02:00.333] [INFO] DEV - New Order 1 of user: Victor mercante 684 generated
+[2023-03-15T23:20:33.980] [INFO] DEV - Se ha registrado el usuario jorgevalle@outlook.com.ar
+[2023-03-15T23:20:34.159] [INFO] DEV - se creó el usuario jorgevalle@outlook.com.ar  ruta session/register
+[2023-03-15T23:22:08.673] [INFO] DEV - El usuario jorgevalle@outlook.com.ar accedió al sector de compra
+[2023-03-15T23:24:13.562] [INFO] DEV - New Order 1 of user: undefined generated
+[2023-03-15T23:27:34.852] [INFO] DEV - New Order 1 of user: undefined generated

@@ -8,8 +8,8 @@ const cartSchema = new Schema({
         default:""
     },
     timestamp:{
-        type: Date,
-        default: Date.now(),
+        type: String,
+        default: new Date().toLocaleString("es-AR")
     },
     products:[{ 
         type: Array,
@@ -30,7 +30,11 @@ const cartSchema = new Schema({
     },
     email:{
         type:String
+    },
+    phone:{
+        type:Number
     }
+
     
 })
 

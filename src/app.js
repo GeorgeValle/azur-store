@@ -22,6 +22,7 @@ import { engine } from 'express-handlebars';
 import {productRouter} from './routes/ProductsRouter.js';
 import {cartRouter} from './routes/CartsRouter.js';
 import {sessionRouter} from './routes/SessionRouter.js';
+import {orderRouter} from './routes/OrderRouter.js';
 
 
 //configuration of port whit fork o cluster mode
@@ -95,8 +96,7 @@ app.set('view engine', 'handlebars')
 
 
 //passport initialization
-// passport.use('register', registerStrategy)
-// passport.use('login', loginStrategy)
+
 
 initializePassport()
 app.use(passport.initialize())
@@ -119,8 +119,9 @@ app.get('/home',(req, res)=>{
 app.use('/products',productRouter);
 app.use('/carts',cartRouter);
 app.use('/session',sessionRouter);
+app.use('/order',orderRouter);
 
-//for message in inexistent routes
+//message for inexistent routes
 app.use((req, res) => {
     res.status(404).send({error: -2, description: `route ${req.baseUrl}${req.url} method ${req.method} not implemented`});
 });
