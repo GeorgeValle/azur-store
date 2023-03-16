@@ -42,11 +42,44 @@ const mailToUser = async (order) => {
         }
     };
     
+    let htmlMsg =``
+
+    for (let i = 0; i < order.products.length; i++) {
+        const product = order.products[i];
+        const html = `
+            <ul>
+                <li><b>ID:</b> ${product._id}</li>
+                <li><b>Categoría:</b> ${product.category}</li>
+                <li><b>Nombre:</b> ${product.name}</li>
+                <li><b>Precio:</b> ${product.price}</li>
+                <li><b>Cantidad:</b> ${product.quantity}</li>
+                
+            </ul>`;
+            htmlMsg += html;
+        }
+
+
         let message = {
             from: `Azur Store <${process.env.USER_EMAIL}>`,
-            to: "jorgevalle@outlook.com.ar",
-            subject: "¡¡¡aviso de nuevo usuario!!!",
-            html: "<b>se ha generado un nuevo usuario</b>"
+            to: `${order.email}`,
+            subject: `¡Su pedido de Azur Store!`,
+            html: `
+                <b>Datos del comprador</b>
+            <hr>
+            <ul>
+                <li><b>Nombre de Usuario:</b> ${order.email} </li>
+                <li><b>Teléfono:</b> ${order.phone}</li>
+                
+            </ul>
+            
+                <b>Datos del Pedido número: ${order.numOrder}</b>
+            <hr>
+                ${htmlMsg}
+            <hr>
+            <ul>
+                <li><b>Fecha y Hora:</b> ${order.timestamp}</li>
+                <li><b>Dirección de entrega:</b> ${order.address}</li>
+            </ul>`
         }
     
         

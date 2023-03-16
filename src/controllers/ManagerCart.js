@@ -15,10 +15,11 @@ class Cart{
             
             let addressUser = user.address
             let emailUser = user.username
+            let phoneUser = user.phone
             const cart = await CartModel.find({idUser:id_user})
             if(!cart[0]){
                 
-                await CartModel.create({idUser:id_user,address:addressUser,email:emailUser})
+                await CartModel.create({idUser:id_user,address:addressUser,email:emailUser,phone:phoneUser})
                 
                 logInfo.info(`Cart of ${user.name} create`)
                 
@@ -49,24 +50,6 @@ class Cart{
 
         }
 
-
-    //receive a id of product
-    // saveData= async (req, res) => {
-    //     //validations
-    //     try{
-    //         let carts = await CartModel.find()
-    //         if(!carts){
-    //         const createdCart = await CartModel.create({});
-    //         if(!createdCart)return res.status(404).json({ message: 'Cart does not created'})
-        
-    //         return res.status(200).json({message: "Cart created", data: createdCart})
-    //         }
-    //     }catch(err){
-    //         console.log(err)
-    //         return{status:400, message: "error cart not created"}
-    //     }
-    // }
-    
     //create one cart whit a Id_user from params
     createOneCart= async (req, res)=>{
             const { id_user } = req.params
@@ -76,9 +59,10 @@ class Cart{
                     if(!user){errorLogger.error("NO found user for function createCart")}
                     let addressUser = user.address
                     let emailUser = user.username
+                    let phoneUser = user.phone
                     const cart = await CartModel.findOne({idUser:id_user})
                     if(!cart[0]){
-                        const newCart = await CartModel.create({idUser:id_user,address:addressUser,email:emailUser})
+                        const newCart = await CartModel.create({idUser:id_user,address:addressUser,email:emailUser,phone:phoneUser})
                         logInfo.info(`Cart of ${user.name} create`)
                     return res.status(200).json( {data: newCart});    
                     }
