@@ -7,11 +7,11 @@ import express from 'express';
 
 //import of passport
 import passport from 'passport';
-import { initializePassport } from "./strategies/local.js";
+import { initializePassport } from "./src/strategies/Local.js";
 
 import session from 'express-session';
 //import MongoStore
-import './loaders/connection.js';
+import './src/loaders/connection.js';
 import MongoStore from 'connect-mongo';
 const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 
@@ -19,10 +19,10 @@ const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 import { engine } from 'express-handlebars';
 
 //import routes
-import {productRouter} from './routes/ProductsRouter.js';
-import {cartRouter} from './routes/CartsRouter.js';
-import {sessionRouter} from './routes/SessionRouter.js';
-import {orderRouter} from './routes/OrderRouter.js';
+import {productRouter} from './src/routes/ProductsRouter.js';
+import {cartRouter} from './src/routes/CartsRouter.js';
+import {sessionRouter} from './src/routes/SessionRouter.js';
+import {orderRouter} from './src/routes/OrderRouter.js';
 
 
 //configuration of port whit fork o cluster mode
