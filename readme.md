@@ -2,7 +2,14 @@
 
 ## `Introducción`
 
-* Está store está orientada a la venta de libros físicos. 
+* Está store está orientada a la venta de libros físicos.
+
+* Dos métodos para ver la web:
+
+1- ingresando a https://rb.gy/hqtf7
+
+2- clonarlo en su IDE de programación favorito ejemplo: Visual studio CODE
+
 
 * para instalar las liberias hay que clonar este proyecto desde el link: https://github.com/GeorgeValle/azur-store.git
 

@@ -26,7 +26,7 @@ import {orderRouter} from './src/routes/OrderRouter.js';
 
 
 //configuration of port whit fork o cluster mode
-const PORT = parseInt(process.argv[2]) || 8080
+const PORT = parseInt(process.argv[2]) || 3000
 const modoCluster = process.argv[3] == 'CLUSTER'
 
 //configure express
