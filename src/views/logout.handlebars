@@ -1,10 +1,31 @@
-<div class="container-fluid">
-<h2>Hasta la proxima</h2>
-<h3>{{user}}</h3>
-</div>
+<section class="status-page status-page-success">
+  <div class="container py-5">
+    <div class="status-card">
+      <div class="status-icon status-icon-success">👋</div>
+
+      <span class="status-badge">Sesión Cerrada</span>
+
+      <h1 class="status-title">Nos vemos, {{user}}</h1>
+
+      <p class="status-description">
+        Tu sesión se ha cerrado con exito. Vas a ser redirigido a
+        Página Principal en unos segundos.
+      </p>
+
+      <div class="status-actions">
+        <a href="/" class="btn btn-dark">
+          Ir Aora
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <script>
-    setTimeout(() => fetch('/session/logout',{
-            method: 'DELETE'
-        }).then(location.href = '/'), 2000)
+  setTimeout(() => {
+    fetch('/session/logout', { method: 'DELETE' })
+      .finally(() => {
+        window.location.href = '/';
+      });
+  }, 2000);
 </script>

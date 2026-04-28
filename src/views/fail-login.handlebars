@@ -1,9 +1,25 @@
-<div class="page-header">
-            <h1>fail login</h1>
-        </div>
+<section class="status-page status-page-danger">
+  <div class="container py-5">
+    <div class="status-card">
+      <div class="status-icon status-icon-danger">⚠️</div>
 
-        <a href="/session/login" style="text-decoration: none; color: inherit;">
-            <button type="button" class="mt-3 btn btn-outline-danger">
-                Volver a Acceder
-            </button>
+      <span class="status-badge">Acceso Fallido</span>
+
+      <h1 class="status-title">El ingreso ha fallado</h1>
+
+      <p class="status-description">
+        No hemos podido validar tus credenciales. Por favor, revise su E-mail y Contraseña
+        e intentelo de nuevo.
+      </p>
+
+      <div class="status-actions">
+        <a href="/session/login" class="btn btn-danger">
+          Volver a Intentar
         </a>
+        <a href="/home" class="btn btn-outline-dark">
+          Volver a Página Principal
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
