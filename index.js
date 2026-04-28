@@ -13,7 +13,7 @@ import session from 'express-session';
 //import MongoStore
 import './src/loaders/connection.js';
 import MongoStore from 'connect-mongo';
-const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
+//const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true}
 
 //import handlebars
 import { engine } from 'express-handlebars';
@@ -66,22 +66,17 @@ app.use(express.urlencoded({ extended: true }));
 
 //Mongo configuration
 app.use(session({
-    store: MongoStore.create({ 
+    store: MongoStore.create({
         mongoUrl: process.env.DB_ATLAS,
-        mongoOptions: advancedOptions,
         dbName: 'passport-auth',
         collectionName: 'session',
         ttl: 1200
     }),
-        key: 'user_sid',
-        secret: 'library',
-        resave:false,
-        saveUninitialized: false,
-        // cookie:{
-        //     maxAge: 60000
-        // }
+    key: 'user_sid',
+    secret: 'library',
+    resave: false,
+    saveUninitialized: false,
 }))
-
 
 app.use('/content', express.static('./src/public'))
 
@@ -126,12 +121,14 @@ app.use((req, res) => {
     res.status(404).send({error: -2, description: `route ${req.baseUrl}${req.url} method ${req.method} not implemented`});
 });
 
-app.use((error, req , res, next)=>{
-	res.status(400).json({
-		status: 'error',
-		message: error.message
-	})
-})
+app.use((error, req, res, next) => {
+    console.error(error?.stack || error);
+  
+    res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+    });
+  });
 
 }
 

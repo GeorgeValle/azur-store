@@ -1,21 +1,22 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import mongoose, {mongo} from 'mongoose';
+import mongoose from 'mongoose';
 
-const uri= process.env.DB_ATLAS
-const ear= mongoose.connection;
+const uri = process.env.DB_ATLAS;
+const db = mongoose.connection;
 
-mongoose.connect(uri,
-    {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    // useCreateIndex: true,
-    // useFindAndModify: false
-}).catch(err => {console.log(err)})
+// evita el warning de strictQuery
+mongoose.set('strictQuery', false);
 
-ear.once('open',_=>{
-    console.log(`Database is connected to: `, uri)
-})
+mongoose.connect(uri).catch((err) => {
+  console.error('MongoDB connection error');
+  console.error(err?.message || err);
+});
 
-ear.on('error', err => {console.log(`Type error: ${err}`)})
+db.once('open', () => {
+  console.log('Base de datos conectada correctamente');
+});
 
+db.on('error', (err) => {
+  console.error(`Error de conexión a MongoDB: ${err?.message || err}`);
+});

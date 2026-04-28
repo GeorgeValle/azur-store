@@ -293,3 +293,8 @@
 [2023-03-15T23:22:08.673] [INFO] DEV - El usuario jorgevalle@outlook.com.ar accedió al sector de compra
 [2023-03-15T23:24:13.562] [INFO] DEV - New Order 1 of user: undefined generated
 [2023-03-15T23:27:34.852] [INFO] DEV - New Order 1 of user: undefined generated
+[2026-04-23T04:00:29.049] [ERROR] DEV - intento fallido de registro
+[2026-04-23T05:43:50.537] [INFO] DEV - New Order 2 of user: undefined generated
+[2026-04-28T00:19:52.116] [WARN] DEV - intento fallido de inicio de sesión
+[2026-04-28T00:20:33.682] [WARN] DEV - intento fallido de inicio de sesión
+[2026-04-28T00:21:13.981] [INFO] DEV - El usuario jorgevalle@outlook.com.ar ha salido en ruta get logout
