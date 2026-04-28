@@ -1,83 +1,76 @@
 <div class="page-header">
-    <h1 class="mx-3">Comprar</h1>
+  <h1 class="mx-3">Carrito</h1>
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-        <a class="navbar-brand text-center fw-bolder text-white text-wrap" href="#">Azur Store</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  <div class="container-fluid">
+    <a class="navbar-brand text-center fw-bolder text-white text-wrap" href="#">Azur Store</a>
 
-                {{#if admin }}
-                <li class="nav-item">
-                    <a class="nav-link" href="/session/inputProduct">Editar Productos</a>
-                </li>
-                {{/if}}
-                <li class="nav-item">
-                    <a class="nav-link" href="/session/purchase">Comprar</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/session/logout">Salir</a>
-                </li>
-            </ul>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCart"
+      aria-controls="navbarCart" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-        </div>
+    <div class="collapse navbar-collapse" id="navbarCart">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {{#if admin}}
+        <li class="nav-item">
+          <a class="nav-link" href="/session/inputProduct">Editar Productos</a>
+        </li>
+        {{/if}}
+
+        <li class="nav-item">
+          <a class="nav-link" href="/session/purchase">Comprar</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/session/logout">Salir</a>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>
 
-
-    {{!-- {{#if products }} --}}
-        {{#each products }}
-        <div class="cart page">
-            <div class="card-group">
-                
-                <div class="card">
-                    {{#each this }}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ this.name }}</h5>
-                        <p class="card-text text-muted">{{this.description}}</p>
-                    </div>
-                    <div class="card-text">
-                        ${{this.price}}
-                    </div>
-                    <div class="card-footer">
-                        <a href="/cart/{{this.userId}}/products/{{this._id}}" class="btn btn-dark btn-sm" role="button"></i> Eliminar</a>
-                    </div>
-                    {{/each }}
-                </div>
-                
-            </div>
+<section class="container py-4" id="cart-page" data-user-id="{{userId}}" data-user-name="{{user}}">
+  <div class="row g-4">
+    <div class="col-12 col-lg-8">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+          <h2 class="h4 mb-1">Tus productos</h2>
+          <p class="text-muted mb-0">Podés quitar items, vaciar el carrito o generar la orden.</p>
         </div>
-        {{/each }}
-        {{#if cart}}
-        {{#each this }}
-    {{!-- {{/if}} --}}
-    <hr>
-    <div class="text-left">
-        <div class="text-title">Usuario: {{ user }} </div>
-    </div>
-    <hr>
-    <div class="text-right">
-        <div class="text-title">Total: ${{ this.totalPrice }} </div>
-    </div>
-    <div class="text-right">
-        <div class="text-title">Total: ${{ this.totalItems }} </div>
-    </div>
-    <hr>
-    <button class="btn btn-danger btn-sm" id="clean-cart">
-        vaciar todo
-    </button>
-    <hr>
-    <button class="btn btn-dark btn-lg" id="pay">
-        Pagar
-    </button>
-    {{/each }}
+        <a href="/session/purchase" class="btn btn-outline-dark">Seguir comprando</a>
+      </div>
 
-{{ else }}
-    <p>El carrito está vacio</p>
-{{/if}}
+      <div id="cart-feedback" class="mb-3"></div>
 
+      <div id="cart-root" class="row g-3" aria-live="polite">
+        <div class="col-12">
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+              <p class="mb-0 text-muted">Cargando carrito...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="card border-0 shadow-sm sticky-top" style="top: 1rem;">
+        <div class="card-body p-4">
+          <h3 class="h5 mb-3">Resumen</h3>
+          <p class="mb-2"><strong>Usuario:</strong> {{user}}</p>
+          <p class="mb-2"><strong>Total de items:</strong> <span id="cart-total-items">0</span></p>
+          <p class="mb-4"><strong>Total a pagar:</strong> $<span id="cart-total-price">0</span></p>
+
+          <div class="d-grid gap-2">
+            <button class="btn btn-danger" id="clean-cart" type="button">Vaciar carrito</button>
+            <button class="btn btn-dark" id="pay" type="button">Pagar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/content/js/cart.js"></script>

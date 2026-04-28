@@ -1,85 +1,171 @@
 import '../loaders/connection.js';
 import OrderModel from '../models/OrderModel.js';
 import CartModel from '../models/CartModel.js';
-import { mailToUser} from '../utils/Nodemailer.js';
-import {logInfo, logger, errorLogger} from '../utils/Logger.js'
+import { mailToUser } from '../utils/Nodemailer.js';
+import { logInfo, logger, errorLogger } from '../utils/Logger.js';
 
-class Order{
+class Order {
+    #normalizeProducts(products = []) {
+        return (products || []).flat(Infinity).filter(
+            (product) => product && typeof product === 'object' && !Array.isArray(product)
+        );
+    }
 
-    async createOrder(req, res) {
-        try{
+    #recalculateTotals(products = []) {
+        const normalizedProducts = this.#normalizeProducts(products);
 
-            const { id_user } = req.params
-            
-            const orders = await OrderModel.find({})
-            let addNumOrder=0;
-            if(!orders[0]){
-                addNumOrder=1;
-            }else{
-                addNumOrder= orders.length+1
+        const totalItems = normalizedProducts.reduce((acc, product) => {
+            return acc + Number(product.quantity || 0);
+        }, 0);
+
+        const totalPrice = normalizedProducts.reduce((acc, product) => {
+            return acc + Number(product.price || 0) * Number(product.quantity || 0);
+        }, 0);
+
+        return {
+            products: normalizedProducts,
+            totalItems,
+            totalPrice,
+        };
+    }
+
+    async #getNextOrderNumber() {
+        const lastOrder = await OrderModel.findOne().sort({ numOrder: -1 });
+
+        if (!lastOrder) {
+            return 1;
+        }
+
+        return Number(lastOrder.numOrder || 0) + 1;
+    }
+
+    createOrder = async (req, res) => {
+        try {
+            const { id_user } = req.params;
+
+            if (!id_user) {
+                return res.status(400).json({
+                    message: 'No se pudo procesar la orden.',
+                });
             }
-            const cart = await CartModel.findOne({idUser:id_user})
 
-            const addProducts = cart.products
+            const cart = await CartModel.findOne({ idUser: id_user });
 
-            const AddEmail = cart.email
+            if (!cart) {
+                return res.status(404).json({
+                    message: 'No se encontró el carrito.',
+                });
+            }
 
-            const addAddress= cart.address
+            const { products, totalItems, totalPrice } = this.#recalculateTotals(cart.products);
 
-            const addTotalItems = cart.totalItems
+            if (!products.length) {
+                return res.status(400).json({
+                    message: 'El carrito está vacío.',
+                });
+            }
 
-            const addTotalPrice = cart.totalPrice
+            const nextOrderNumber = await this.#getNextOrderNumber();
 
-            const AddUserId = cart.idUser
+            const newOrder = await OrderModel.create({
+                numOrder: nextOrderNumber,
+                products,
+                email: cart.email,
+                address: cart.address,
+                totalItems,
+                totalPrice,
+                userId: cart.idUser,
+                phone: cart.phone,
+                state: 'generated',
+            });
 
-            const AddPhone = cart.phone
+            let emailSent = false;
 
-            const NewOrder = await OrderModel.create({numOrder:addNumOrder,products:addProducts,email:AddEmail,address:addAddress,totalItems:addTotalItems,totalPrice:addTotalPrice,userId:AddUserId,phone:AddPhone})
-            //send order by email whit nodemailer
-            mailToUser(NewOrder)
-            
-            //file
-            logger.info(`New Order ${addNumOrder} of user: ${addAddress} generated`)
-            
-            //delete cart
-            const cartDeleted = await CartModel.findOneAndDelete({idUser:id_user})
-            //console
-            logInfo.info(`cart deleted: ${cartDeleted.idUser} `)
+            try {
+                await mailToUser(newOrder);
+                emailSent = true;
+            } catch (mailError) {
+                errorLogger.error(`mail error in createOrder: ${mailError?.stack || mailError}`);
+            }
 
-            return res.status(200).json({message: "Order generated: ", data:NewOrder})
-        }catch(err){
-            errorLogger.error(`order not generated: ${err}`)
-            return res.status(400).json({message: `order not generated: ${err}`})
+            logger.info(`New Order ${nextOrderNumber} of user: ${cart.address} generated`);
+
+            const cartDeleted = await CartModel.findOneAndDelete({ idUser: id_user });
+
+            if (cartDeleted) {
+                logInfo.info(`cart deleted: ${cartDeleted.idUser}`);
+            }
+
+            return res.status(200).json({
+                message: emailSent
+                    ? 'Orden generada correctamente.'
+                    : 'Orden generada correctamente. El correo no pudo enviarse.',
+                data: newOrder,
+            });
+        } catch (err) {
+            errorLogger.error(`order createOrder failed: ${err?.stack || err}`);
+
+            return res.status(500).json({
+                message: 'No se pudo procesar la orden. Intentá nuevamente.',
+            });
         }
-    }
+    };
 
-    async getOrder(req, res) {
-        try{
+    getOrder = async (req, res) => {
+        try {
+            const { num_order } = req.params;
 
-            const { num_order } = req.params
+            if (!num_order) {
+                return res.status(400).json({
+                    message: 'Número de orden inválido.',
+                });
+            }
 
-            const order = await OrderModel.findOne({numOrder:num_order})
+            const order = await OrderModel.findOne({ numOrder: num_order });
 
-            return res.status(200).json({message: "Order found: ", data:order})
-        }catch(err){
-            errorLogger.error(`order not found : ${err}`)
-            return res.status(400).json({message: `order not found: ${err}`})
+            if (!order) {
+                return res.status(404).json({
+                    message: 'Orden no encontrada.',
+                });
+            }
+
+            return res.status(200).json({
+                message: 'Orden encontrada.',
+                data: order,
+            });
+        } catch (err) {
+            errorLogger.error(`getOrder failed: ${err?.stack || err}`);
+
+            return res.status(500).json({
+                message: 'No se pudo obtener la orden.',
+            });
         }
-    }
+    };
 
-    async getOrdersByUser(req, res) {
-        try{
-            const { id_user } = req.params
+    getOrdersByUser = async (req, res) => {
+        try {
+            const { id_user } = req.params;
 
-            const orders = await OrderModel.find({userId:id_user})
+            if (!id_user) {
+                return res.status(400).json({
+                    message: 'Usuario inválido.',
+                });
+            }
 
-            return res.status(200).json({message: "Orders of User: ", data:orders})
-        }catch(err){
-            errorLogger.error(` User's orders not found : ${err}`)
-            return res.status(400).json({message: `User's orders not found : ${err}`})
+            const orders = await OrderModel.find({ userId: id_user }).sort({ numOrder: -1 });
+
+            return res.status(200).json({
+                message: 'Órdenes del usuario.',
+                data: orders,
+            });
+        } catch (err) {
+            errorLogger.error(`getOrdersByUser failed: ${err?.stack || err}`);
+
+            return res.status(500).json({
+                message: 'No se pudieron obtener las órdenes.',
+            });
         }
-    }
-
+    };
 }
 
 export default new Order();

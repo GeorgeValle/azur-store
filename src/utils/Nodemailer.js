@@ -28,8 +28,8 @@ const config = {
 
     const transporter = nodemailer.createTransport(config);
 
-    const info = await transporter.sendMail(message)
-    logInfo.info(info);
+    const info = await transporter.sendMail(message);
+    logInfo.info(`Admin email sent successfully. MessageId: ${info.messageId}`);
 }
 
 const mailToUser = async (order) => {
@@ -87,8 +87,8 @@ const mailToUser = async (order) => {
     
         const transporter = nodemailer.createTransport(config);
     
-        const info = await transporter.sendMail(message)
-        logInfo.info(info);
+        const info = await transporter.sendMail(message);
+        logInfo.info(`Order email sent to ${order.email}. MessageId: ${info.messageId}`);
     }
 
 

@@ -8,10 +8,10 @@ import order from '../controllers/ManagerOrder.js';
 routes.post('/:id_user', order.createOrder)
 
 //get an order by number of order
-routes.get('/:num_order', order.getOrder)
+routes.get('/number/:num_order', order.getOrder)
 
 //get many orders by id_user
-routes.get('/:id_user', order.getOrdersByUser)
+routes.get('/user/:id_user', order.getOrdersByUser)
 
 
 const orderRouter = routes
