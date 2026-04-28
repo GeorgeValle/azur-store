@@ -1,9 +1,25 @@
-<h1> fail register</h1>
-<div class="page-header">
-            <h1>fail register</h1>
-        </div>
-        <a href="/session/register" style="text-decoration: none; color: inherit;">
-            <button type="button" class="btn btn-outline-success">
-                Volver a registro
-            </button>
+<section class="status-page status-page-warning">
+  <div class="container py-5">
+    <div class="status-card">
+      <div class="status-icon status-icon-warning">📝</div>
+
+      <span class="status-badge">Registración Fallida</span>
+
+      <h1 class="status-title">NO hemos podido completar tu registración</h1>
+
+      <p class="status-description">
+        Alguna información enviada está incompleta o es invalida. 
+        Por favor, revise el formulario e intentelo de nuevo.
+      </p>
+
+      <div class="status-actions">
+        <a href="/session/register" class="btn btn-primary">
+          Volver a Registro
         </a>
+        <a href="/session/login" class="btn btn-outline-dark">
+          Ir a ingreso
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
